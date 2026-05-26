@@ -3,6 +3,19 @@ set -e
 
 echo "🚀 Starting IDCH Suite setup..."
 
+# 0. Enforce Environment Configuration
+if [ ! -f portal/.env.local ]; then
+    cp portal/.env.example portal/.env.local
+    echo "⚠️  CRITICAL ACTION REQUIRED ⚠️"
+    echo "We detected a fresh installation. A default portal/.env.local file has been created."
+    echo "Please open 'portal/.env.local' and edit 'PUBLIC_BASE_URL' to match your VPS Public IP or Domain."
+    echo "Once you have edited the file, run this setup script again."
+    exit 1
+fi
+
+# Load variables for Nextcloud config later
+source portal/.env.local
+
 # 1. Start Docker containers
 echo "📦 Starting Docker containers (Nextcloud, Keycloak, Postgres)..."
 docker compose up -d
@@ -21,14 +34,19 @@ echo "✅ Nextcloud is fully installed!"
 echo "⚙️ Configuring Nextcloud settings..."
 docker exec -u www-data workspace_nextcloud php occ config:system:set default_timezone --value="Asia/Jakarta" || true
 docker exec -u www-data workspace_nextcloud php occ config:system:set default_language --value="en" || true
-docker exec -u www-data workspace_nextcloud php occ config:system:set trusted_domains 1 --value="localhost" || true
+
+# Extract IP/Domain from PUBLIC_BASE_URL (removing http:// and ports)
+PUBLIC_IP=$(echo $PUBLIC_BASE_URL | sed -e 's|^[^/]*//||' -e 's|/.*$||' -e 's|:.*||')
+
+echo "🔒 Setting Nextcloud Trusted Domains..."
+docker exec -u www-data workspace_nextcloud php occ config:system:set trusted_domains 0 --value="localhost" || true
+docker exec -u www-data workspace_nextcloud php occ config:system:set trusted_domains 1 --value="workspace_nextcloud" || true
+if [ ! -z "$PUBLIC_IP" ]; then
+    docker exec -u www-data workspace_nextcloud php occ config:system:set trusted_domains 2 --value="$PUBLIC_IP" || true
+fi
 
 # 3. Setup Portal environment variables
-echo "📝 Setting up Portal frontend..."
-if [ ! -f portal/.env.local ]; then
-    cp portal/.env.example portal/.env.local
-    echo "✅ Created portal/.env.local from example"
-fi
+echo "📝 Skipping portal/.env.local creation (already exists and configured)..."
 
 # 4. Install npm dependencies inside Docker
 echo "📦 Installing Portal dependencies via Docker..."

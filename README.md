@@ -15,15 +15,23 @@ A comprehensive internal portal integrated with Nextcloud Calendar via CalDAV.
 
 ## Getting Started (Quick Setup)
 
-We have provided a convenient setup script that automates starting the Docker containers, configuring Nextcloud, copying environment files, and installing dependencies.
+## Quick Start (VPS & Local Deployment)
 
-1. **Run the Setup Script**
+To get everything running with a single command, you must first configure your Public IP or domain if you are deploying to a server (VPS).
+
+1. **Configure Environment variables**
+   ```bash
+   cp portal/.env.example portal/.env.local
+   ```
+   *IMPORTANT: Open `portal/.env.local` and change `PUBLIC_BASE_URL` to match your server's Public IP or Domain (e.g., `http://203.0.113.1`). If you are just testing locally, leave it as `http://localhost`.*
+
+2. **Run the Automatic Setup Script**
    ```bash
    ./setup.sh
    ```
    *Note: If you get a permission error, run `chmod +x setup.sh` first.*
 
-2. **Access the Application**
+3. **Access the Application**
    - Portal: [http://localhost:3000](http://localhost:3000) (Runs automatically inside Docker)
    - Nextcloud: [http://localhost:8081](http://localhost:8081) (Login: admin / admin)
 

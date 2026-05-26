@@ -6,7 +6,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     Keycloak({
       clientId: process.env.KEYCLOAK_CLIENT_ID,
       clientSecret: process.env.KEYCLOAK_CLIENT_SECRET,
-      issuer: process.env.KEYCLOAK_ISSUER,
+      issuer: process.env.KEYCLOAK_ISSUER, // External URL for iss validation
+      authorization: `${process.env.KEYCLOAK_ISSUER}/protocol/openid-connect/auth`, // External URL for browser redirect
+      token: `${process.env.KEYCLOAK_ISSUER_INTERNAL}/protocol/openid-connect/token`, // Internal Docker URL
+      userinfo: `${process.env.KEYCLOAK_ISSUER_INTERNAL}/protocol/openid-connect/userinfo`, // Internal Docker URL
+      jwks_endpoint: `${process.env.KEYCLOAK_ISSUER_INTERNAL}/protocol/openid-connect/certs`, // Internal Docker URL
     }),
   ],
   callbacks: {
