@@ -23,15 +23,9 @@ We have provided a convenient setup script that automates starting the Docker co
    ```
    *Note: If you get a permission error, run `chmod +x setup.sh` first.*
 
-2. **Start the Frontend Portal**
-   ```bash
-   cd portal
-   npm run dev
-   ```
-
-3. **Access the Application**
-   - Portal: [http://localhost:3000](http://localhost:3000)
-   - Nextcloud: [http://localhost:8080](http://localhost:8080) (Login: admin / admin)
+2. **Access the Application**
+   - Portal: [http://localhost:3000](http://localhost:3000) (Runs automatically inside Docker)
+   - Nextcloud: [http://localhost:8081](http://localhost:8081) (Login: admin / admin)
 
 ## Manual Setup
 
@@ -52,10 +46,10 @@ If you prefer to set up the project manually or step-by-step:
    cd portal
    cp .env.example .env.local
    ```
-4. **Install Dependencies & Run**
+4. **Install Dependencies & Restart Portal**
    ```bash
-   npm install
-   npm run dev
+   docker compose run --rm portal npm install
+   docker compose restart portal
    ```
 
 ## Detailed Application Setup Guides

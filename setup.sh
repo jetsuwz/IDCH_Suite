@@ -30,12 +30,12 @@ if [ ! -f portal/.env.local ]; then
     echo "✅ Created portal/.env.local from example"
 fi
 
-# 4. Install npm dependencies
-echo "📦 Installing Portal dependencies..."
-cd portal
-npm install
+# 4. Install npm dependencies inside Docker
+echo "📦 Installing Portal dependencies via Docker..."
+docker compose run --rm portal npm install
 
-echo "✅ Setup complete! You can now run the portal:"
-echo "   cd portal"
-echo "   npm run dev"
+# Restart the portal container in case it crashed earlier without node_modules
+docker compose restart portal
+
+echo "✅ Setup complete! The IDCH Portal is now running in Docker."
 echo "   (Access the portal at http://localhost:3000)"
