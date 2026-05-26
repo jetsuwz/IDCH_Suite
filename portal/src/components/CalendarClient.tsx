@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { getCalendarEvents, createCalendarEvent, CalendarEvent } from "@/actions/calendar";
+import { getCalendarEvents, createCalendarEvent, updateCalendarEvent, CalendarEvent } from "@/actions/calendar";
+import DateTimePicker from "./DateTimePicker";
 
 export default function CalendarClient() {
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -11,12 +12,16 @@ export default function CalendarClient() {
 
   // Modal State
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(null);
+  const [popupPos, setPopupPos] = useState<{ x: number, y: number, side: 'left' | 'right' } | null>(null);
+  const [isEditMode, setIsEditMode] = useState(false);
+
   const [eventTitle, setEventTitle] = useState("");
   const [eventStartDate, setEventStartDate] = useState("");
   const [eventStartTime, setEventStartTime] = useState("");
   const [eventEndDate, setEventEndDate] = useState("");
   const [eventEndTime, setEventEndTime] = useState("");
-  const [eventAllDay, setEventAllDay] = useState(false);
+  const [eventAllDay, setEventAllDay] = useState(true);
   const [eventLocation, setEventLocation] = useState("");
   const [eventDescription, setEventDescription] = useState("");
 
@@ -104,6 +109,7 @@ export default function CalendarClient() {
     setEventStartTime(startT);
     setEventEndDate(endD);
     setEventEndTime(endT);
+    setEventAllDay(true);
 
     setIsCreateModalOpen(true);
   };
@@ -112,9 +118,9 @@ export default function CalendarClient() {
     if (!eventTitle) return alert("Title is required");
     
     try {
-      const startDate = new Date(`${eventStartDate}T${eventAllDay ? '00:00' : eventStartTime}`);
-      const endDate = new Date(`${eventEndDate}T${eventAllDay ? '00:00' : eventEndTime}`);
-      await createCalendarEvent(eventTitle, startDate, endDate, eventLocation, eventDescription, eventAllDay);
+      const startStr = `${eventStartDate}T${eventAllDay ? '00:00' : eventStartTime}`;
+      const endStr = `${eventEndDate}T${eventAllDay ? '00:00' : eventEndTime}`;
+      await createCalendarEvent(eventTitle, startStr, endStr, eventLocation, eventDescription, eventAllDay);
       setIsCreateModalOpen(false);
       fetchEvents();
     } catch (e) {
@@ -122,15 +128,78 @@ export default function CalendarClient() {
     }
   };
 
+  const handleUpdateEvent = async () => {
+    if (!selectedEvent || !eventTitle) return alert("Title is required");
+    
+    try {
+      const startStr = `${eventStartDate}T${eventAllDay ? '00:00' : eventStartTime}`;
+      const endStr = `${eventEndDate}T${eventAllDay ? '00:00' : eventEndTime}`;
+      await updateCalendarEvent(selectedEvent.href, eventTitle, startStr, endStr, eventLocation, eventDescription, eventAllDay);
+      setIsEditMode(false);
+      setSelectedEvent(null);
+      fetchEvents();
+    } catch (e) {
+      alert("Failed to update event");
+    }
+  };
+
   // Helper to check if an event is on a specific Date
   const getEventsForDay = (day: number, isCurrentMonth: boolean) => {
     if (!isCurrentMonth) return [];
-    const targetDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
-    const targetDateString = targetDate.toISOString().split('T')[0].replace(/-/g, ''); // YYYYMMDD
+    
     return events.filter(e => {
-      // e.start format is YYYYMMDDTHHMMSSZ or YYYYMMDD
-      return e.start.startsWith(targetDateString);
+      if (!e.start) return false;
+      
+      // All day event: YYYYMMDD
+      if (!e.start.includes('T') && e.start.length >= 8) {
+         const y = parseInt(e.start.substring(0,4));
+         const m = parseInt(e.start.substring(4,6)) - 1;
+         const d = parseInt(e.start.substring(6,8));
+         return y === currentDate.getFullYear() && m === currentDate.getMonth() && d === day;
+      }
+      
+      // Timed event: YYYYMMDDTHHMMSSZ or YYYYMMDDTHHMMSS
+      if (e.start.length >= 15) {
+         const y = e.start.substring(0,4);
+         const m = e.start.substring(4,6);
+         const d = e.start.substring(6,8);
+         const h = e.start.substring(9,11);
+         const min = e.start.substring(11,13);
+         const s = e.start.substring(13,15);
+         
+         const isUTC = e.start.endsWith('Z');
+         // If it's UTC, parse with Z to convert to local. If it's local, parse without Z.
+         const parsedDate = new Date(`${y}-${m}-${d}T${h}:${min}:${s}${isUTC ? 'Z' : ''}`);
+         
+         return parsedDate.getFullYear() === currentDate.getFullYear() && 
+                parsedDate.getMonth() === currentDate.getMonth() && 
+                parsedDate.getDate() === day;
+      }
+      return false;
     });
+  };
+
+  const formatEventTimeForDetail = (icsTimeStr: string) => {
+    if (!icsTimeStr) return "";
+    if (!icsTimeStr.includes('T') && icsTimeStr.length >= 8) {
+      const y = parseInt(icsTimeStr.substring(0,4));
+      const m = parseInt(icsTimeStr.substring(4,6)) - 1;
+      const d = parseInt(icsTimeStr.substring(6,8));
+      const date = new Date(y, m, d);
+      return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    }
+    if (icsTimeStr.length >= 15) {
+      const y = icsTimeStr.substring(0,4);
+      const m = icsTimeStr.substring(4,6);
+      const d = icsTimeStr.substring(6,8);
+      const h = icsTimeStr.substring(9,11);
+      const min = icsTimeStr.substring(11,13);
+      const s = icsTimeStr.substring(13,15);
+      const isUTC = icsTimeStr.endsWith('Z');
+      const parsedDate = new Date(`${y}-${m}-${d}T${h}:${min}:${s}${isUTC ? 'Z' : ''}`);
+      return parsedDate.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true });
+    }
+    return "";
   };
 
   return (
@@ -148,34 +217,40 @@ export default function CalendarClient() {
             />
             
             <div className="flex space-x-3 items-center">
-              <input 
-                type="date"
-                className="flex-1 bg-[#1e1e1e] border border-slate-600 rounded-lg text-sm text-slate-300 px-3 py-2 focus:outline-none focus:border-blue-500"
-                value={eventStartDate}
-                onChange={e => setEventStartDate(e.target.value)}
-              />
-              {!eventAllDay && (
-                <input 
-                  type="time" 
-                  className="w-32 bg-[#1e1e1e] border border-slate-600 rounded-lg text-sm text-slate-300 px-3 py-2 focus:outline-none focus:border-blue-500"
-                  value={eventStartTime}
-                  onChange={e => setEventStartTime(e.target.value)}
-                />
-              )}
-              <span className="text-slate-400">to</span>
-              <input 
-                type="date"
-                className="flex-1 bg-[#1e1e1e] border border-slate-600 rounded-lg text-sm text-slate-300 px-3 py-2 focus:outline-none focus:border-blue-500"
-                value={eventEndDate}
-                onChange={e => setEventEndDate(e.target.value)}
-              />
-              {!eventAllDay && (
-                <input 
-                  type="time" 
-                  className="w-32 bg-[#1e1e1e] border border-slate-600 rounded-lg text-sm text-slate-300 px-3 py-2 focus:outline-none focus:border-blue-500"
-                  value={eventEndTime}
-                  onChange={e => setEventEndTime(e.target.value)}
-                />
+              {eventAllDay ? (
+                <>
+                  <input 
+                    type="date"
+                    className="flex-1 bg-[#1e1e1e] border border-slate-600 rounded-lg text-sm text-slate-300 px-3 py-2.5 focus:outline-none focus:border-blue-500"
+                    value={eventStartDate}
+                    onChange={e => setEventStartDate(e.target.value)}
+                  />
+                  <span className="text-slate-400 px-2">to</span>
+                  <input 
+                    type="date"
+                    className="flex-1 bg-[#1e1e1e] border border-slate-600 rounded-lg text-sm text-slate-300 px-3 py-2.5 focus:outline-none focus:border-blue-500"
+                    value={eventEndDate}
+                    onChange={e => setEventEndDate(e.target.value)}
+                  />
+                </>
+              ) : (
+                <>
+                  <DateTimePicker 
+                    labelPrefix="from"
+                    selectedDate={eventStartDate}
+                    selectedTime={eventStartTime}
+                    onDateChange={setEventStartDate}
+                    onTimeChange={setEventStartTime}
+                  />
+                  <span className="text-slate-400">to</span>
+                  <DateTimePicker 
+                    labelPrefix="to"
+                    selectedDate={eventEndDate}
+                    selectedTime={eventEndTime}
+                    onDateChange={setEventEndDate}
+                    onTimeChange={setEventEndTime}
+                  />
+                </>
               )}
             </div>
 
@@ -250,35 +325,7 @@ export default function CalendarClient() {
           </div>
         </div>
 
-        {/* My Calendars Filter */}
-        <div className="flex-1 flex flex-col">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider">My Calendars</h3>
-            <button className="text-slate-400 hover:text-slate-600"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg></button>
-          </div>
-          <div className="space-y-4">
-            <label className="flex items-center group cursor-pointer">
-              <input defaultChecked className="rounded border-slate-300 text-blue-600 focus:ring-blue-600 w-5 h-5" type="checkbox"/>
-              <span className="ml-3 text-sm text-slate-700 font-medium flex-1">Personal</span>
-              <span className="w-2.5 h-2.5 rounded-full bg-blue-500"></span>
-            </label>
-            <label className="flex items-center group cursor-pointer">
-              <input defaultChecked className="rounded border-slate-300 text-green-500 focus:ring-green-500 w-5 h-5" type="checkbox"/>
-              <span className="ml-3 text-sm text-slate-700 font-medium flex-1">Team Projects</span>
-              <span className="w-2.5 h-2.5 rounded-full bg-green-500"></span>
-            </label>
-            <label className="flex items-center group cursor-pointer">
-              <input defaultChecked className="rounded border-slate-300 text-purple-500 focus:ring-purple-500 w-5 h-5" type="checkbox"/>
-              <span className="ml-3 text-sm text-slate-700 font-medium flex-1">External Meetings</span>
-              <span className="w-2.5 h-2.5 rounded-full bg-purple-500"></span>
-            </label>
-            <label className="flex items-center group cursor-pointer">
-              <input className="rounded border-slate-300 text-orange-500 focus:ring-orange-500 w-5 h-5" type="checkbox"/>
-              <span className="ml-3 text-sm text-slate-700 font-medium flex-1">Holidays</span>
-              <span className="w-2.5 h-2.5 rounded-full bg-orange-500"></span>
-            </label>
-          </div>
-        </div>
+
       </section>
 
       {/* BEGIN: CalendarGridArea */}
@@ -320,7 +367,26 @@ export default function CalendarClient() {
                 {/* Render Actual Events */}
                 <div className="mt-2 space-y-1">
                   {dayEvents.map(evt => (
-                    <div key={evt.id} className="p-1.5 bg-blue-100 text-blue-700 text-[10px] font-bold rounded flex items-center border-l-4 border-blue-500 truncate cursor-pointer hover:bg-blue-200">
+                    <div 
+                      key={evt.id} 
+                      onClick={(e) => {
+                        const rect = e.currentTarget.getBoundingClientRect();
+                        const popoverWidth = 440;
+                        let side: 'left' | 'right' = 'left';
+                        let x = rect.left - popoverWidth - 16;
+                        
+                        // If no space on the left, put it on the right
+                        if (x < 10) {
+                          side = 'right';
+                          x = rect.right + 16;
+                        }
+                        
+                        setPopupPos({ x, y: rect.top - 20, side });
+                        setSelectedEvent(evt);
+                        setIsEditMode(false);
+                      }}
+                      className="p-1.5 bg-blue-100 text-blue-700 text-[10px] font-bold rounded flex items-center border-l-4 border-blue-500 truncate cursor-pointer hover:bg-blue-200 relative"
+                    >
                       {evt.summary}
                     </div>
                   ))}
@@ -341,13 +407,21 @@ export default function CalendarClient() {
         </div>
         <div className="space-y-6">
           {getEventsForDay(new Date().getDate(), currentDate.getMonth() === new Date().getMonth()).map(evt => {
-             // Basic time parsing: YYYYMMDDTHHMMSSZ -> HH:MM
+             // Parse time accurately into local time
              let timeStr = "All Day";
-             if (evt.start.includes('T')) {
-                const timePart = evt.start.split('T')[1];
-                if (timePart.length >= 4) {
-                   timeStr = `${timePart.substring(0,2)}:${timePart.substring(2,4)}`;
-                }
+             if (evt.start.includes('T') && evt.start.length >= 15) {
+                const y = evt.start.substring(0,4);
+                const m = evt.start.substring(4,6);
+                const d = evt.start.substring(6,8);
+                const h = evt.start.substring(9,11);
+                const min = evt.start.substring(11,13);
+                const s = evt.start.substring(13,15);
+                const isUTC = evt.start.endsWith('Z');
+                
+                const parsedDate = new Date(`${y}-${m}-${d}T${h}:${min}:${s}${isUTC ? 'Z' : ''}`);
+                const hours = parsedDate.getHours().toString().padStart(2, '0');
+                const minutes = parsedDate.getMinutes().toString().padStart(2, '0');
+                timeStr = `${hours}:${minutes}`;
              }
              return (
               <div key={evt.id} className="flex space-x-4">
@@ -364,6 +438,200 @@ export default function CalendarClient() {
           <p className="text-xs text-slate-400 italic">No more events for today</p>
         </div>
       </section>
+
+      {/* Event Details Popup Modal */}
+      {selectedEvent && popupPos && (
+        <div className="fixed inset-0 z-50">
+          <div className="absolute inset-0" onClick={() => { setSelectedEvent(null); setIsEditMode(false); }}></div>
+          <div 
+            className="fixed bg-[#1e1e1e] border border-slate-700 rounded-xl shadow-2xl w-[440px] text-slate-200"
+            style={{ 
+              left: Math.max(10, popupPos.x), 
+              top: Math.max(10, Math.min(popupPos.y, typeof window !== 'undefined' ? window.innerHeight - (isEditMode ? 400 : 300) : 800)) 
+            }}
+          >
+            {/* Popover Arrow */}
+            <div className={`absolute top-[28px] w-3 h-3 bg-[#1e1e1e] border-slate-700 transform rotate-45 ${popupPos.side === 'left' ? 'right-[-7px] border-t border-r' : 'left-[-7px] border-b border-l'}`}></div>
+
+            {/* Top Bar */}
+            <div className="flex items-center justify-between p-4 border-b border-slate-800 relative z-10 bg-[#1e1e1e] rounded-t-xl">
+              <div className="flex items-center space-x-2">
+                <div className="w-3.5 h-3.5 bg-[#0082c9] rounded-full"></div>
+                <span className="font-bold text-sm text-slate-100">Personal</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <button className="text-slate-400 hover:text-white p-1">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"></path></svg>
+                </button>
+                <button onClick={() => { setSelectedEvent(null); setIsEditMode(false); }} className="text-slate-400 hover:text-white p-1">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+              </div>
+            </div>
+            
+            {/* Body */}
+            {isEditMode ? (
+              <div className="p-5 space-y-4">
+                <input 
+                  type="text" 
+                  placeholder="Event title"
+                  className="w-full bg-[#1a1a1a] border border-slate-700 rounded-lg text-white px-4 py-2.5 focus:outline-none focus:border-blue-500 font-bold"
+                  value={eventTitle}
+                  onChange={e => setEventTitle(e.target.value)}
+                  autoFocus
+                />
+                
+                <div className="flex space-x-3 items-center">
+                  {eventAllDay ? (
+                    <>
+                      <input 
+                        type="date"
+                        className="flex-1 bg-[#1a1a1a] border border-slate-700 rounded-lg text-sm text-slate-300 px-3 py-2.5 focus:outline-none focus:border-blue-500"
+                        value={eventStartDate}
+                        onChange={e => setEventStartDate(e.target.value)}
+                      />
+                      <span className="text-slate-400 px-2">to</span>
+                      <input 
+                        type="date"
+                        className="flex-1 bg-[#1a1a1a] border border-slate-700 rounded-lg text-sm text-slate-300 px-3 py-2.5 focus:outline-none focus:border-blue-500"
+                        value={eventEndDate}
+                        onChange={e => setEventEndDate(e.target.value)}
+                      />
+                    </>
+                  ) : (
+                    <>
+                      <DateTimePicker 
+                        labelPrefix="from"
+                        selectedDate={eventStartDate}
+                        selectedTime={eventStartTime}
+                        onDateChange={setEventStartDate}
+                        onTimeChange={setEventStartTime}
+                      />
+                      <DateTimePicker 
+                        labelPrefix="to"
+                        selectedDate={eventEndDate}
+                        selectedTime={eventEndTime}
+                        onDateChange={setEventEndDate}
+                        onTimeChange={setEventEndTime}
+                      />
+                    </>
+                  )}
+                </div>
+
+                <label className="flex items-center space-x-2 text-sm text-slate-300 cursor-pointer">
+                  <input type="checkbox" checked={eventAllDay} onChange={e => setEventAllDay(e.target.checked)} className="rounded border-slate-600 bg-[#1e1e1e] text-blue-600 focus:ring-blue-500 focus:ring-offset-slate-900" />
+                  <span>All day</span>
+                </label>
+
+                <div className="flex items-start space-x-3 text-sm text-slate-300 mt-4">
+                  <svg className="w-5 h-5 text-slate-400 shrink-0 mt-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                  <input 
+                    type="text" 
+                    placeholder="Location"
+                    className="flex-1 bg-[#1a1a1a] border border-slate-700 rounded-lg text-white px-4 py-2 focus:outline-none focus:border-blue-500"
+                    value={eventLocation}
+                    onChange={e => setEventLocation(e.target.value)}
+                  />
+                </div>
+
+                <div className="flex items-start space-x-3 text-sm text-slate-300">
+                  <svg className="w-5 h-5 text-slate-400 shrink-0 mt-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                  <textarea 
+                    placeholder="Description"
+                    rows={2}
+                    className="flex-1 bg-[#1a1a1a] border border-slate-700 rounded-lg text-white px-4 py-2 focus:outline-none focus:border-blue-500"
+                    value={eventDescription}
+                    onChange={e => setEventDescription(e.target.value)}
+                  />
+                </div>
+              </div>
+            ) : (
+              <div className="p-5 space-y-4">
+                <h2 className="text-xl font-bold text-white mb-2">{selectedEvent.summary}</h2>
+                
+                <div className="flex items-start space-x-3 text-sm text-slate-300">
+                  <svg className="w-5 h-5 text-slate-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                  <div>
+                    {formatEventTimeForDetail(selectedEvent.start)} - {formatEventTimeForDetail(selectedEvent.end)}
+                  </div>
+                </div>
+
+                {selectedEvent.location && (
+                  <div className="flex items-start space-x-3 text-sm text-slate-300">
+                    <svg className="w-5 h-5 text-slate-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                    <div>{selectedEvent.location}</div>
+                  </div>
+                )}
+
+                {selectedEvent.description && (
+                  <div className="flex items-start space-x-3 text-sm text-slate-300">
+                    <svg className="w-5 h-5 text-slate-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                    <div className="whitespace-pre-wrap">{selectedEvent.description}</div>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Footer */}
+            <div className="p-4 border-t border-slate-800 flex justify-end items-center space-x-4 bg-[#1a1a1a] rounded-b-xl">
+              <button className="text-sm font-bold text-slate-300 hover:text-white transition-colors">
+                More details
+              </button>
+              {isEditMode ? (
+                <button 
+                  onClick={handleUpdateEvent}
+                  className="bg-[#0082c9] hover:bg-[#006ca8] text-white px-5 py-2 rounded-full text-sm font-bold flex items-center space-x-2 transition-colors"
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path></svg>
+                  <span>Update</span>
+                </button>
+              ) : (
+                <button 
+                  onClick={() => {
+                    setEventTitle(selectedEvent.summary);
+                    setEventLocation(selectedEvent.location || "");
+                    setEventDescription(selectedEvent.description || "");
+                    
+                    // Simple parse back to fields
+                    let sDay = "", sTime = "00:00", eDay = "", eTime = "00:00", allday = true;
+                    if (selectedEvent.start.length >= 8) {
+                      sDay = `${selectedEvent.start.substring(0,4)}-${selectedEvent.start.substring(4,6)}-${selectedEvent.start.substring(6,8)}`;
+                    }
+                    if (selectedEvent.start.length >= 15) {
+                      allday = false;
+                      sTime = `${selectedEvent.start.substring(9,11)}:${selectedEvent.start.substring(11,13)}`;
+                    }
+                    if (selectedEvent.end.length >= 8) {
+                      eDay = `${selectedEvent.end.substring(0,4)}-${selectedEvent.end.substring(4,6)}-${selectedEvent.end.substring(6,8)}`;
+                    }
+                    if (selectedEvent.end.length >= 15) {
+                      eTime = `${selectedEvent.end.substring(9,11)}:${selectedEvent.end.substring(11,13)}`;
+                    } else if (allday && eDay) {
+                      // end date for all day is exclusive, we might need to subtract 1 day visually, but simple parse is ok for now
+                      const ed = new Date(eDay);
+                      ed.setDate(ed.getDate() - 1);
+                      eDay = ed.toISOString().split('T')[0];
+                    }
+                    
+                    setEventStartDate(sDay);
+                    setEventStartTime(sTime);
+                    setEventEndDate(eDay);
+                    setEventEndTime(eTime);
+                    setEventAllDay(allday);
+                    
+                    setIsEditMode(true);
+                  }}
+                  className="bg-[#1b2b3d] hover:bg-[#253b52] text-[#5cb1ff] px-5 py-2 rounded-full text-sm font-bold flex items-center space-x-2 transition-colors"
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
+                  <span>Edit</span>
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }
