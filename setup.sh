@@ -7,8 +7,15 @@ echo "🚀 Starting IDCH Suite setup..."
 echo "📦 Starting Docker containers (Nextcloud, Keycloak, Postgres)..."
 docker compose up -d
 
-echo "⏳ Waiting for Nextcloud to initialize (this may take a minute)..."
-sleep 20
+echo "⏳ Waiting for Nextcloud to initialize (this may take 1-3 minutes)..."
+
+# Poll until Nextcloud is fully installed
+until docker exec -u www-data workspace_nextcloud php occ status | grep -q "installed: true"; do
+  echo "Still installing... waiting 10 seconds..."
+  sleep 10
+done
+
+echo "✅ Nextcloud is fully installed!"
 
 # 2. Configure Nextcloud (Timezone, Language, Trusted Domains)
 echo "⚙️ Configuring Nextcloud settings..."

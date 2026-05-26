@@ -85,18 +85,18 @@ export default function DateTimePicker({ labelPrefix, selectedDate, selectedTime
   };
   
   return (
-    <div className="relative inline-block" ref={dropdownRef}>
+    <div className="relative inline-block w-full h-full" ref={dropdownRef}>
       <button 
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="bg-[#1e1e1e] border border-slate-600 rounded-lg text-sm text-slate-200 px-4 py-2.5 focus:outline-none focus:border-blue-500 hover:bg-[#252525] flex items-center justify-between min-w-[240px]"
+        className="bg-[#1e1e1e] border border-slate-600 rounded-lg text-[13px] leading-tight text-slate-200 px-3 py-2.5 focus:outline-none focus:border-blue-500 hover:bg-[#252525] flex flex-col sm:flex-row sm:items-center justify-between w-full h-full text-left"
       >
-        <span>{formatDisplay()}</span>
-        <svg className="w-4 h-4 text-slate-400 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
+        <span className="flex-1 pr-1">{formatDisplay()}</span>
+        <svg className="w-4 h-4 text-slate-400 shrink-0 self-end sm:self-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
       </button>
 
       {isOpen && (
-        <div className="absolute top-full left-0 mt-2 bg-[#1e1e1e] border border-slate-700 rounded-xl shadow-2xl z-50 w-72 overflow-hidden flex flex-col">
+        <div className={`absolute top-full ${labelPrefix === 'to' ? 'right-0' : 'left-0'} mt-2 bg-[#1e1e1e] border border-slate-700 rounded-xl shadow-2xl z-50 w-72 overflow-hidden flex flex-col`}>
           {/* Header */}
           <div className="bg-[#1a1a1a] p-3 text-center border-b border-slate-700">
             <span className="bg-[#2a2a2a] text-slate-300 font-bold px-4 py-1.5 rounded-full text-sm tracking-wide">

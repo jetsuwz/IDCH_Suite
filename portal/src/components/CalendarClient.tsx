@@ -15,6 +15,7 @@ export default function CalendarClient() {
   const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(null);
   const [popupPos, setPopupPos] = useState<{ x: number, y: number, side: 'left' | 'right' } | null>(null);
   const [isEditMode, setIsEditMode] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const [eventTitle, setEventTitle] = useState("");
   const [eventStartDate, setEventStartDate] = useState("");
@@ -136,11 +137,44 @@ export default function CalendarClient() {
       const endStr = `${eventEndDate}T${eventAllDay ? '00:00' : eventEndTime}`;
       await updateCalendarEvent(selectedEvent.href, eventTitle, startStr, endStr, eventLocation, eventDescription, eventAllDay);
       setIsEditMode(false);
+      setIsSidebarOpen(false);
       setSelectedEvent(null);
       fetchEvents();
     } catch (e) {
       alert("Failed to update event");
     }
+  };
+
+  const populateEditFields = (evt: CalendarEvent) => {
+    setEventTitle(evt.summary);
+    setEventLocation(evt.location || "");
+    setEventDescription(evt.description || "");
+    
+    // Simple parse back to fields
+    let sDay = "", sTime = "00:00", eDay = "", eTime = "00:00", allday = true;
+    if (evt.start.length >= 8) {
+      sDay = `${evt.start.substring(0,4)}-${evt.start.substring(4,6)}-${evt.start.substring(6,8)}`;
+    }
+    if (evt.start.length >= 15) {
+      allday = false;
+      sTime = `${evt.start.substring(9,11)}:${evt.start.substring(11,13)}`;
+    }
+    if (evt.end.length >= 8) {
+      eDay = `${evt.end.substring(0,4)}-${evt.end.substring(4,6)}-${evt.end.substring(6,8)}`;
+    }
+    if (evt.end.length >= 15) {
+      eTime = `${evt.end.substring(9,11)}:${evt.end.substring(11,13)}`;
+    } else if (allday && eDay) {
+      const ed = new Date(eDay);
+      ed.setDate(ed.getDate() - 1);
+      eDay = ed.toISOString().split('T')[0];
+    }
+    
+    setEventStartDate(sDay);
+    setEventStartTime(sTime);
+    setEventEndDate(eDay);
+    setEventEndTime(eTime);
+    setEventAllDay(allday);
   };
 
   // Helper to check if an event is on a specific Date
@@ -440,14 +474,14 @@ export default function CalendarClient() {
       </section>
 
       {/* Event Details Popup Modal */}
-      {selectedEvent && popupPos && (
+      {selectedEvent && popupPos && !isSidebarOpen && (
         <div className="fixed inset-0 z-50">
           <div className="absolute inset-0" onClick={() => { setSelectedEvent(null); setIsEditMode(false); }}></div>
           <div 
-            className="fixed bg-[#1e1e1e] border border-slate-700 rounded-xl shadow-2xl w-[440px] text-slate-200"
+            className="fixed bg-[#1e1e1e] border border-slate-700 rounded-xl shadow-2xl w-[440px] max-h-[90vh] flex flex-col text-slate-200"
             style={{ 
               left: Math.max(10, popupPos.x), 
-              top: Math.max(10, Math.min(popupPos.y, typeof window !== 'undefined' ? window.innerHeight - (isEditMode ? 400 : 300) : 800)) 
+              top: Math.max(10, Math.min(popupPos.y, typeof window !== 'undefined' ? window.innerHeight - (isEditMode ? 550 : 350) : 800)) 
             }}
           >
             {/* Popover Arrow */}
@@ -471,7 +505,7 @@ export default function CalendarClient() {
             
             {/* Body */}
             {isEditMode ? (
-              <div className="p-5 space-y-4">
+              <div className="p-5 space-y-4 overflow-y-auto flex-1 custom-scrollbar">
                 <input 
                   type="text" 
                   placeholder="Event title"
@@ -481,9 +515,9 @@ export default function CalendarClient() {
                   autoFocus
                 />
                 
-                <div className="flex space-x-3 items-center">
+                <div className="flex flex-col space-y-3">
                   {eventAllDay ? (
-                    <>
+                    <div className="flex space-x-3 items-center">
                       <input 
                         type="date"
                         className="flex-1 bg-[#1a1a1a] border border-slate-700 rounded-lg text-sm text-slate-300 px-3 py-2.5 focus:outline-none focus:border-blue-500"
@@ -497,7 +531,7 @@ export default function CalendarClient() {
                         value={eventEndDate}
                         onChange={e => setEventEndDate(e.target.value)}
                       />
-                    </>
+                    </div>
                   ) : (
                     <>
                       <DateTimePicker 
@@ -538,15 +572,15 @@ export default function CalendarClient() {
                   <svg className="w-5 h-5 text-slate-400 shrink-0 mt-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
                   <textarea 
                     placeholder="Description"
-                    rows={2}
-                    className="flex-1 bg-[#1a1a1a] border border-slate-700 rounded-lg text-white px-4 py-2 focus:outline-none focus:border-blue-500"
+                    rows={3}
+                    className="flex-1 bg-[#1a1a1a] border border-slate-700 rounded-lg text-white px-4 py-2 focus:outline-none focus:border-blue-500 resize-none"
                     value={eventDescription}
                     onChange={e => setEventDescription(e.target.value)}
                   />
                 </div>
               </div>
             ) : (
-              <div className="p-5 space-y-4">
+              <div className="p-5 space-y-4 overflow-y-auto flex-1 custom-scrollbar">
                 <h2 className="text-xl font-bold text-white mb-2">{selectedEvent.summary}</h2>
                 
                 <div className="flex items-start space-x-3 text-sm text-slate-300">
@@ -574,7 +608,13 @@ export default function CalendarClient() {
 
             {/* Footer */}
             <div className="p-4 border-t border-slate-800 flex justify-end items-center space-x-4 bg-[#1a1a1a] rounded-b-xl">
-              <button className="text-sm font-bold text-slate-300 hover:text-white transition-colors">
+              <button 
+                onClick={() => {
+                  populateEditFields(selectedEvent);
+                  setIsSidebarOpen(true);
+                }}
+                className="text-sm font-bold text-slate-300 hover:text-white transition-colors"
+              >
                 More details
               </button>
               {isEditMode ? (
@@ -588,37 +628,7 @@ export default function CalendarClient() {
               ) : (
                 <button 
                   onClick={() => {
-                    setEventTitle(selectedEvent.summary);
-                    setEventLocation(selectedEvent.location || "");
-                    setEventDescription(selectedEvent.description || "");
-                    
-                    // Simple parse back to fields
-                    let sDay = "", sTime = "00:00", eDay = "", eTime = "00:00", allday = true;
-                    if (selectedEvent.start.length >= 8) {
-                      sDay = `${selectedEvent.start.substring(0,4)}-${selectedEvent.start.substring(4,6)}-${selectedEvent.start.substring(6,8)}`;
-                    }
-                    if (selectedEvent.start.length >= 15) {
-                      allday = false;
-                      sTime = `${selectedEvent.start.substring(9,11)}:${selectedEvent.start.substring(11,13)}`;
-                    }
-                    if (selectedEvent.end.length >= 8) {
-                      eDay = `${selectedEvent.end.substring(0,4)}-${selectedEvent.end.substring(4,6)}-${selectedEvent.end.substring(6,8)}`;
-                    }
-                    if (selectedEvent.end.length >= 15) {
-                      eTime = `${selectedEvent.end.substring(9,11)}:${selectedEvent.end.substring(11,13)}`;
-                    } else if (allday && eDay) {
-                      // end date for all day is exclusive, we might need to subtract 1 day visually, but simple parse is ok for now
-                      const ed = new Date(eDay);
-                      ed.setDate(ed.getDate() - 1);
-                      eDay = ed.toISOString().split('T')[0];
-                    }
-                    
-                    setEventStartDate(sDay);
-                    setEventStartTime(sTime);
-                    setEventEndDate(eDay);
-                    setEventEndTime(eTime);
-                    setEventAllDay(allday);
-                    
+                    populateEditFields(selectedEvent);
                     setIsEditMode(true);
                   }}
                   className="bg-[#1b2b3d] hover:bg-[#253b52] text-[#5cb1ff] px-5 py-2 rounded-full text-sm font-bold flex items-center space-x-2 transition-colors"
@@ -631,6 +641,154 @@ export default function CalendarClient() {
           </div>
         </div>
       )}
+
+      {/* Advanced Edit Sidebar */}
+      {selectedEvent && isSidebarOpen && (
+        <div className="fixed inset-0 z-[60] bg-black/40 backdrop-blur-sm">
+          <div className="absolute inset-0" onClick={() => { setSelectedEvent(null); setIsSidebarOpen(false); }}></div>
+          <div className="absolute right-0 top-0 bottom-0 w-[480px] bg-[#1a1a1a] border-l border-slate-700 shadow-2xl flex flex-col text-slate-200 animate-in slide-in-from-right duration-200">
+            {/* Sidebar Top Bar */}
+            <div className="flex items-center justify-between p-4 pb-2">
+              <div className="flex items-center space-x-2">
+                <div className="w-3 h-3 bg-[#0082c9] rounded-full"></div>
+                <span className="font-bold text-sm text-slate-100">Personal</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <button className="text-slate-400 hover:text-white p-2 rounded hover:bg-slate-800">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"></path></svg>
+                </button>
+                <button onClick={() => { setSelectedEvent(null); setIsSidebarOpen(false); }} className="text-slate-400 hover:text-white p-2 rounded hover:bg-slate-800">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+              </div>
+            </div>
+
+            {/* Sidebar Scrollable Body */}
+            <div className="flex-1 overflow-y-auto custom-scrollbar p-4 pt-0 space-y-4">
+              
+              <input 
+                type="text" 
+                className="w-full bg-[#141414] border border-slate-700 rounded-lg text-white px-4 py-2 focus:outline-none focus:border-[#0082c9] font-bold"
+                value={eventTitle}
+                onChange={e => setEventTitle(e.target.value)}
+              />
+              
+              <div className="flex space-x-2 items-stretch w-full">
+                {eventAllDay ? (
+                  <>
+                    <input type="date" className="flex-1 min-w-0 bg-[#141414] border border-slate-700 rounded-lg text-xs text-slate-300 px-2 py-2" value={eventStartDate} onChange={e => setEventStartDate(e.target.value)} />
+                    <input type="date" className="flex-1 min-w-0 bg-[#141414] border border-slate-700 rounded-lg text-xs text-slate-300 px-2 py-2" value={eventEndDate} onChange={e => setEventEndDate(e.target.value)} />
+                  </>
+                ) : (
+                  <>
+                    <div className="flex-1 min-w-0 flex">
+                      <DateTimePicker labelPrefix="from" selectedDate={eventStartDate} selectedTime={eventStartTime} onDateChange={setEventStartDate} onTimeChange={setEventStartTime} />
+                    </div>
+                    <div className="flex-1 min-w-0 flex">
+                      <DateTimePicker labelPrefix="to" selectedDate={eventEndDate} selectedTime={eventEndTime} onDateChange={setEventEndDate} onTimeChange={setEventEndTime} />
+                    </div>
+                  </>
+                )}
+              </div>
+
+              <label className="flex items-center space-x-2 text-sm text-slate-300 cursor-pointer pl-1">
+                <input type="checkbox" checked={eventAllDay} onChange={e => setEventAllDay(e.target.checked)} className="rounded border-slate-600 bg-[#1e1e1e] text-[#0082c9] focus:ring-[#0082c9]" />
+                <span>All day</span>
+              </label>
+
+              <div className="flex items-center space-x-3 text-sm text-slate-300">
+                <svg className="w-5 h-5 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                <input type="text" placeholder="Location" className="flex-1 bg-[#141414] border border-slate-700 rounded-lg text-white px-3 py-2 focus:outline-none focus:border-[#0082c9]" value={eventLocation} onChange={e => setEventLocation(e.target.value)} />
+              </div>
+
+              <div className="flex items-start space-x-3 text-sm text-slate-300">
+                <svg className="w-5 h-5 text-slate-400 shrink-0 mt-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                <textarea rows={3} placeholder="Description" className="flex-1 bg-[#141414] border border-slate-700 rounded-lg text-white px-3 py-2 focus:outline-none focus:border-[#0082c9] resize-none" value={eventDescription} onChange={e => setEventDescription(e.target.value)} />
+              </div>
+
+              {/* Tabs */}
+              <div className="flex border-b border-slate-700 pt-4">
+                <button className="flex-1 pb-2 border-b-2 border-[#0082c9] text-[#0082c9] font-bold text-xs flex flex-col items-center gap-1">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                  Details
+                </button>
+                <button className="flex-1 pb-2 border-b-2 border-transparent text-slate-400 font-bold text-xs flex flex-col items-center gap-1 hover:text-slate-300">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                  Attendees
+                </button>
+                <button className="flex-1 pb-2 border-b-2 border-transparent text-slate-400 font-bold text-xs flex flex-col items-center gap-1 hover:text-slate-300">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                  Resources
+                </button>
+              </div>
+
+              {/* Advanced Settings Mocks */}
+              <div className="space-y-4 pt-2">
+                <div className="flex items-center space-x-3 text-sm">
+                  <svg className="w-4 h-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path></svg>
+                  <select className="flex-1 bg-[#141414] border border-slate-700 rounded text-slate-300 px-3 py-1.5 outline-none"><option>Confirmed</option></select>
+                  <span className="text-slate-500 italic text-xs">i</span>
+                </div>
+                
+                <div className="flex items-center space-x-3 text-sm">
+                  <svg className="w-4 h-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                  <select className="flex-1 bg-[#141414] border border-slate-700 rounded text-slate-300 px-3 py-1.5 outline-none"><option>When shared show full event</option></select>
+                  <span className="text-slate-500 italic text-xs">i</span>
+                </div>
+
+                <div className="flex items-center space-x-3 text-sm">
+                  <svg className="w-4 h-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                  <select className="flex-1 bg-[#141414] border border-slate-700 rounded text-slate-300 px-3 py-1.5 outline-none"><option>Busy</option></select>
+                  <span className="text-slate-500 italic text-xs">i</span>
+                </div>
+
+                <div className="flex items-center space-x-3 text-sm">
+                  <svg className="w-4 h-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path></svg>
+                  <select className="flex-1 bg-[#141414] border border-slate-700 rounded text-slate-300 px-3 py-1.5 outline-none"><option>Search or add categories</option></select>
+                  <span className="text-slate-500 italic text-xs">i</span>
+                </div>
+                
+                <div className="flex items-center space-x-3 pl-7">
+                  <div className="w-8 h-8 rounded-full bg-[#0082c9]"></div>
+                </div>
+
+                <div className="flex items-center space-x-3 text-sm">
+                  <svg className="w-4 h-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
+                  <select className="flex-1 bg-[#141414] border border-slate-700 rounded text-slate-300 px-3 py-1.5 outline-none"><option>+ Add reminder</option></select>
+                </div>
+
+                <div className="flex items-center justify-between text-sm text-slate-300 py-1">
+                  <div className="flex items-center space-x-3">
+                    <svg className="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                    <span>Does not repeat</span>
+                  </div>
+                  <svg className="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
+                </div>
+
+                <div className="flex items-center justify-between text-sm text-slate-300 py-1">
+                  <div className="flex items-center space-x-3">
+                    <svg className="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"></path></svg>
+                    <span className="font-bold">No attachments</span>
+                  </div>
+                  <svg className="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4"></path></svg>
+                </div>
+              </div>
+            </div>
+
+            {/* Sidebar Bottom Bar */}
+            <div className="p-4 border-t border-slate-700 bg-[#1a1a1a]">
+              <button 
+                onClick={handleUpdateEvent}
+                className="w-full bg-[#0082c9] hover:bg-[#006ca8] text-white px-5 py-3 rounded-full text-sm font-bold flex items-center justify-center space-x-2 transition-colors"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path></svg>
+                <span>Update</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
 
     </div>
   );
