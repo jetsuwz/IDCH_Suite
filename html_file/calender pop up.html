@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Create New Event - MyWorkspace</title>
+<!-- Google Fonts: Hanken Grotesk -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS CDN -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#0052cc',
+            surface: '#f7f9fb',
+            'surface-container-lowest': '#ffffff',
+            'border-subtle': '#e2e8f0'
+          },
+          fontFamily: {
+            sans: ['Hanken Grotesk', 'sans-serif'],
+          },
+          borderRadius: {
+            'custom': '8px',
+          }
+        }
+      }
+    }
+  </script>
+<style data-purpose="custom-styles">
+    body {
+      font-family: 'Hanken Grotesk', sans-serif;
+    }
+    .modal-overlay {
+      background: rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(4px);
+    }
+    .input-focus:focus {
+      border-color: #0052cc;
+      ring-color: #0052cc;
+    }
+  </style>
+</head>
+<body class="bg-[#f0f2f5] min-h-screen flex items-center justify-center">
+<!-- BEGIN: Background Context (Mockup of Dashboard) -->
+<div class="fixed inset-0 z-0 opacity-50 pointer-events-none overflow-hidden">
+<img alt="Dashboard Background" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCq453FILyw7ki9SS3oq4jPJeywObuKD9evgQ8ghE7L-E5C0zEWHeHPuz2K7fLKzIOgujb7BJSEFDNTDBQaPQxRo6sS5suel_gfwYno5Pp1MWED1wiReharxlvPQNGPvOFzw4UyJeZcHXuhBUnEb4LSiH9sAjYuBWbEzzeQLWZ-7KrSdPaniMav3se1oJSto-zR7PvMkHD1sPZzkNxx8EwDBasZUiFP0M_pah4XorXjPQb8bq8FwGyC5DBYktKSXPuFVl6ii8ZopqE"/>
+</div>
+<!-- END: Background Context -->
+<!-- BEGIN: Modal Overlay -->
+<div class="fixed inset-0 z-10 modal-overlay flex items-center justify-center p-4">
+<!-- BEGIN: Create Event Modal -->
+<section class="bg-white w-full max-w-[620px] rounded-custom shadow-2xl overflow-hidden flex flex-col" data-purpose="create-event-modal">
+<!-- BEGIN: Modal Header -->
+<header class="flex items-center justify-between px-8 py-6 border-b border-gray-50">
+<h1 class="text-2xl font-semibold text-gray-900">Create New Event</h1>
+<button aria-label="Close modal" class="text-gray-400 hover:text-gray-600 transition-colors">
+<svg class="h-6 w-6" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</button>
+</header>
+<!-- END: Modal Header -->
+<!-- BEGIN: Modal Body (Form) -->
+<div class="px-8 py-6 space-y-5">
+<!-- Event Title -->
+<div data-purpose="form-group">
+<label class="block text-sm font-medium text-gray-700 mb-1.5" for="event-title">Event Title</label>
+<input class="w-full border-gray-300 rounded-custom px-4 py-2.5 text-gray-900 placeholder-gray-400 focus:ring-primary focus:border-primary" id="event-title" placeholder="e.g. Quarterly Review Meeting" type="text"/>
+</div>
+<!-- Date & Time Row -->
+<div class="grid grid-cols-2 gap-4">
+<div data-purpose="form-group">
+<label class="block text-sm font-medium text-gray-700 mb-1.5" for="start-date">Start Date &amp; Time</label>
+<div class="relative">
+<input class="w-full border-gray-300 rounded-custom pl-10 pr-4 py-2.5 text-gray-900 placeholder-gray-400 focus:ring-primary focus:border-primary" id="start-date" placeholder="mm/dd/yyyy, --:-- --" type="text"/>
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+</div>
+</div>
+<div data-purpose="form-group">
+<label class="block text-sm font-medium text-gray-700 mb-1.5" for="end-date">End Date &amp; Time</label>
+<div class="relative">
+<input class="w-full border-gray-300 rounded-custom pl-10 pr-4 py-2.5 text-gray-900 placeholder-gray-400 focus:ring-primary focus:border-primary" id="end-date" placeholder="mm/dd/yyyy, --:-- --" type="text"/>
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+</div>
+</div>
+</div>
+<!-- Location -->
+<div data-purpose="form-group">
+<div class="flex justify-between items-center mb-1.5">
+<label class="block text-sm font-medium text-gray-700" for="location">Location</label>
+<!-- Toggle for Room/Online -->
+<div class="flex bg-gray-100 p-0.5 rounded-md text-[11px] font-semibold uppercase tracking-wider">
+<button class="px-3 py-1 bg-white shadow-sm rounded text-primary">Room</button>
+<button class="px-3 py-1 text-gray-500">Online Meeting</button>
+</div>
+</div>
+<div class="relative">
+<input class="w-full border-gray-300 rounded-custom pl-10 pr-4 py-2.5 text-gray-900 placeholder-gray-400 focus:ring-primary focus:border-primary" id="location" placeholder="Conference Room A, 4th Floor" type="text"/>
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+<path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+</div>
+</div>
+<!-- Attendees -->
+<div data-purpose="form-group">
+<label class="block text-sm font-medium text-gray-700 mb-1.5" for="attendees">Attendees</label>
+<div class="border border-gray-300 rounded-custom px-3 py-2 space-y-2 focus-within:ring-1 focus-within:ring-primary focus-within:border-primary">
+<div class="flex items-center gap-2">
+<svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<input class="flex-1 border-none p-0 focus:ring-0 text-gray-900 placeholder-gray-400 text-sm" id="attendees" placeholder="Add guest email address..." type="text"/>
+</div>
+<!-- Attendee Chips -->
+<div class="flex flex-wrap gap-2 pt-1">
+<!-- Chip 1 -->
+<div class="inline-flex items-center bg-blue-50 text-blue-700 px-2.5 py-1 rounded-full text-xs font-medium border border-blue-100">
+<div class="w-5 h-5 rounded-full bg-gray-800 flex items-center justify-center text-[10px] text-white mr-1.5 overflow-hidden">
+<img alt="Jane Doe" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB8ndl9XgBxxz6ySax0uUIgItOvqtHQXTztd64OIVeTI1_jGQ-FVLzMQ9YKpzL8Q89Eg6bqmsSQB-VqHg2vdSVWCTE1VQb4J-U6FcqA3tB0OK1KNCfN4CQ4onGxjFU24EBgH6mITwGWj5D4ZkDeKjzYg0E2QRAc20xhtznRsJxFnuGjG1ZLa2ifHMz3wtjYlRo6nssrtUT2DXI4Frv-QPzGsvAeyOg2g05DGTKnF9m77Wdqxf_ipSPgK59WrsVec8Qq3PkFl6lbFBE"/>
+</div>
+                Jane Doe (Organizer)
+              </div>
+<!-- Chip 2 -->
+<div class="inline-flex items-center bg-gray-100 text-gray-700 px-2.5 py-1 rounded-full text-xs font-medium border border-gray-200">
+<div class="w-5 h-5 rounded-full bg-orange-400 flex items-center justify-center text-[10px] text-white mr-1.5">
+<span class="scale-90">😊</span>
+</div>
+                Mark Smith
+                <button class="ml-1.5 hover:text-gray-900">
+<svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Description -->
+<div data-purpose="form-group">
+<label class="block text-sm font-medium text-gray-700 mb-1.5" for="description">Description</label>
+<textarea class="w-full border-gray-300 rounded-custom px-4 py-2.5 text-gray-900 placeholder-gray-400 focus:ring-primary focus:border-primary resize-none" id="description" placeholder="Add meeting agenda or notes..." rows="3"></textarea>
+</div>
+</div>
+<!-- END: Modal Body -->
+<!-- BEGIN: Modal Footer -->
+<footer class="px-8 py-6 bg-gray-50 flex items-center justify-end space-x-6 border-t border-gray-100">
+<button class="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">Cancel</button>
+<button class="bg-primary hover:bg-blue-700 text-white px-6 py-2.5 rounded-custom font-semibold text-sm flex items-center transition-all shadow-sm">
+<svg class="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+          Save Event
+        </button>
+</footer>
+<!-- END: Modal Footer -->
+</section>
+<!-- END: Create Event Modal -->
+</div>
+<!-- END: Modal Overlay -->
+</body></html>

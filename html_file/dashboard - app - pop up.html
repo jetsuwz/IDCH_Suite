@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Dashboard - MyWorkspace</title>
+<!-- Tailwind CSS with plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts: Hanken Grotesk and Inter -->
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-fixed-dim": "#7bd0ff",
+                        "surface-variant": "#e0e3e5",
+                        "surface-container-high": "#e6e8ea",
+                        "surface": "#f7f9fb",
+                        "on-surface-variant": "#434654",
+                        "inverse-surface": "#2d3133",
+                        "inverse-on-surface": "#eff1f3",
+                        "on-tertiary-container": "#9fdbff",
+                        "on-primary-container": "#c4d2ff",
+                        "secondary-fixed": "#dae2fd",
+                        "primary-fixed": "#dae2ff",
+                        "tertiary-fixed": "#c4e7ff",
+                        "surface-dim": "#d8dadc",
+                        "background": "#f7f9fb",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface": "#191c1e",
+                        "error": "#ba1a1a",
+                        "primary-fixed-dim": "#b2c5ff",
+                        "primary-container": "#0052cc",
+                        "tertiary-container": "#006285",
+                        "outline-variant": "#c3c6d6",
+                        "surface-container": "#eceef0",
+                        "on-secondary": "#ffffff",
+                        "surface-bright": "#f7f9fb",
+                        "on-secondary-fixed": "#131b2e",
+                        "on-tertiary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#004c69",
+                        "error-container": "#ffdad6",
+                        "surface-container-low": "#f2f4f6",
+                        "on-primary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "secondary-container": "#dae2fd",
+                        "on-tertiary-fixed": "#001e2c",
+                        "on-secondary-container": "#5c647a",
+                        "secondary": "#565e74",
+                        "on-background": "#191c1e",
+                        "surface-tint": "#0c56d0",
+                        "surface-container-highest": "#e0e3e5",
+                        "inverse-primary": "#b2c5ff",
+                        "secondary-fixed-dim": "#bec6e0",
+                        "primary": "#003d9b",
+                        "on-secondary-fixed-variant": "#3f465c",
+                        "on-error-container": "#93000a",
+                        "tertiary": "#004964",
+                        "outline": "#737685",
+                        "on-primary-fixed-variant": "#0040a2",
+                        "on-primary-fixed": "#001848"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-padding": "24px",
+                        "gutter": "16px",
+                        "margin-mobile": "16px",
+                        "base": "8px",
+                        "margin-desktop": "64px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "display-xl": ["Hanken Grotesk"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "label-md": ["Inter"],
+                        "headline-lg-mobile": ["Hanken Grotesk"],
+                        "headline-lg": ["Hanken Grotesk"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "display-xl": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: #f7f9fb;
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #c3c6d6; border-radius: 4px; }
+    </style>
+</head>
+<body class="overflow-hidden">
+<!-- SideNavBar (Execution from JSON) -->
+<aside class="docked fixed left-0 top-0 h-full w-[280px] bg-on-primary-fixed dark:bg-inverse-surface shadow-lg flex flex-col py-6 z-50">
+<div class="px-6 mb-8 flex items-center gap-3">
+<div class="w-10 h-10 bg-primary-container rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-white" style="font-variation-settings: 'FILL' 1;">cloud</span>
+</div>
+<div>
+<h1 class="text-headline-md font-headline-md font-bold text-white leading-none">MyWorkspace</h1>
+<p class="text-[10px] text-on-primary-fixed-variant tracking-wider uppercase">Enterprise Portal</p>
+</div>
+</div>
+<nav class="flex-1 space-y-1 px-2 overflow-y-auto custom-scrollbar">
+<!-- Active: Dashboard -->
+<a class="bg-primary-container text-white rounded-lg mx-2 px-4 py-3 flex items-center gap-3 scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<a class="text-on-primary-fixed-variant hover:text-white px-4 py-3 flex items-center gap-3 hover:bg-on-primary-fixed-variant/50 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="apps">apps</span>
+<span class="font-label-md text-label-md">Apps</span>
+</a>
+<a class="text-on-primary-fixed-variant hover:text-white px-4 py-3 flex items-center gap-3 hover:bg-on-primary-fixed-variant/50 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="cloud">cloud</span>
+<span class="font-label-md text-label-md">Drive</span>
+</a>
+<a class="text-on-primary-fixed-variant hover:text-white px-4 py-3 flex items-center gap-3 hover:bg-on-primary-fixed-variant/50 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="mail">mail</span>
+<span class="font-label-md text-label-md">Mail</span>
+</a>
+<a class="text-on-primary-fixed-variant hover:text-white px-4 py-3 flex items-center gap-3 hover:bg-on-primary-fixed-variant/50 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="calendar_today">calendar_today</span>
+<span class="font-label-md text-label-md">Calendar</span>
+</a>
+<a class="text-on-primary-fixed-variant hover:text-white px-4 py-3 flex items-center gap-3 hover:bg-on-primary-fixed-variant/50 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="check_box">check_box</span>
+<span class="font-label-md text-label-md">Tasks</span>
+</a>
+<a class="text-on-primary-fixed-variant hover:text-white px-4 py-3 flex items-center gap-3 hover:bg-on-primary-fixed-variant/50 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+<span class="font-label-md text-label-md">Activity</span>
+</a>
+<a class="text-on-primary-fixed-variant hover:text-white px-4 py-3 flex items-center gap-3 hover:bg-on-primary-fixed-variant/50 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+</nav>
+<div class="mt-auto px-2">
+<a class="text-on-primary-fixed-variant hover:text-white px-4 py-3 flex items-center gap-3 hover:bg-on-primary-fixed-variant/50 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+<span class="font-label-md text-label-md">Admin</span>
+</a>
+</div>
+</aside>
+<!-- TopAppBar (Execution from JSON) -->
+<header class="docked fixed top-0 right-0 w-[calc(100%-280px)] h-20 bg-surface dark:bg-background flex justify-between items-center px-container-padding py-4 z-40">
+<div class="flex-1 max-w-md">
+<div class="relative group focus-within:ring-2 focus-within:ring-primary/20 rounded-lg bg-surface-container-low transition-all">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full bg-transparent border-none focus:ring-0 pl-12 pr-4 py-2 text-body-md font-body-md text-on-surface" placeholder="Search anything..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 hover:bg-surface-variant/50 rounded-full transition-all relative">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="notifications">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button class="p-2 hover:bg-surface-variant/50 rounded-full transition-all" id="appLauncherToggle" onclick="toggleAppLauncher()">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="apps">apps</span>
+</button>
+<div class="h-8 w-[1px] bg-outline-variant mx-2"></div>
+<div class="flex items-center gap-3 pl-2 group cursor-pointer">
+<div class="text-right">
+<p class="font-label-md text-on-surface font-bold">Admin</p>
+<p class="font-label-sm text-on-surface-variant">Administrator</p>
+</div>
+<div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-white font-bold overflow-hidden ring-2 ring-surface">
+<img alt="Admin Administrator" class="w-full h-full object-cover" data-alt="A professional headshot of a middle-aged male administrator in a sharp navy blue business suit. The lighting is crisp and modern with a soft-focus office background, matching a high-end corporate light-mode dashboard aesthetic with subtle blue undertones and high clarity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB2Y4Eajg-roKkGJxAR57fI3XZcpE2vTKbqMr9tSuJvvUH6sCIL9i1DS0cdrWEFxbcE7W5CYPkGUeqrTvG2Ar5ofqhJQPt63N9vp0l4k1x2iZbtPbNaJiSOAeVJJqWV616TY8xrRHRtQsEmDLZGEsym92BKxbLquUvkuxYPRw7dtArMJ2aAX6DnCUB2a0dHtw6yxYakBbnfeBtAhQFCWm19pPN4XvTyYNWUKocGTWOll1uVnLxd_r37gNio4uxPL4DPm_Nz1bBxycY"/>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant">expand_more</span>
+</div>
+</div>
+</header>
+<!-- Main Canvas -->
+<main class="ml-[280px] mt-20 p-container-padding h-[calc(100vh-80px)] overflow-y-auto custom-scrollbar">
+<!-- Header -->
+<div class="mb-8">
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-2">Dashboard</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Welcome back, Admin! Here's your workspace overview.</p>
+</div>
+<!-- Layout Grid (Bento Style) -->
+<div class="grid grid-cols-12 gap-gutter">
+<!-- Storage Card -->
+<div class="col-span-12 md:col-span-4 bg-surface-container-lowest border border-outline-variant/30 rounded-xl p-6 shadow-[4px_4px_16px_rgba(0,0,0,0.02)] hover:shadow-lg transition-shadow relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-[64px]" style="font-variation-settings: 'FILL' 1;">cloud</span>
+</div>
+<div class="flex justify-between items-start mb-4">
+<div>
+<p class="font-label-md text-primary font-bold">Nextcloud Storage</p>
+<h3 class="font-headline-md text-headline-md text-on-surface mt-1">12.45 GB <span class="text-on-surface-variant font-normal text-body-md">/ 50 GB</span></h3>
+</div>
+<div class="w-10 h-10 rounded-full bg-primary-container/10 flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined" data-icon="cloud">cloud</span>
+</div>
+</div>
+<div class="w-full bg-surface-container h-2 rounded-full overflow-hidden mb-2">
+<div class="bg-primary-container h-full w-[24.9%] rounded-full shadow-[0_0_8px_rgba(0,82,204,0.4)]"></div>
+</div>
+<p class="text-right font-label-sm text-on-surface-variant">24.9% Used</p>
+</div>
+<!-- Email Card -->
+<div class="col-span-12 md:col-span-4 bg-surface-container-lowest border border-outline-variant/30 rounded-xl p-6 shadow-[4px_4px_16px_rgba(0,0,0,0.02)] hover:shadow-lg transition-shadow relative overflow-hidden">
+<div class="flex justify-between items-start mb-4">
+<div>
+<p class="font-label-md text-tertiary font-bold">Email (SOGo)</p>
+<h3 class="font-headline-md text-headline-md text-on-surface mt-1">12</h3>
+<p class="font-label-sm text-on-surface-variant">Unread Emails</p>
+</div>
+<div class="w-10 h-10 rounded-full bg-tertiary-container/10 flex items-center justify-center text-tertiary-container">
+<span class="material-symbols-outlined" data-icon="mail">mail</span>
+</div>
+</div>
+<div class="flex gap-2 mt-4">
+<span class="px-2 py-1 bg-error/10 text-error font-label-sm rounded-lg">3 High Priority</span>
+<span class="px-2 py-1 bg-tertiary-container/10 text-tertiary-container font-label-sm rounded-lg">9 Internal</span>
+</div>
+</div>
+<!-- Tasks Card (Small Status) -->
+<div class="col-span-12 md:col-span-4 bg-surface-container-lowest border border-outline-variant/30 rounded-xl p-6 shadow-[4px_4px_16px_rgba(0,0,0,0.02)] hover:shadow-lg transition-shadow relative overflow-hidden">
+<div class="flex justify-between items-start mb-4">
+<div>
+<p class="font-label-md text-secondary font-bold">Odoo Tasks</p>
+<h3 class="font-headline-md text-headline-md text-on-surface mt-1">8</h3>
+<p class="font-label-sm text-on-surface-variant">Pending Today</p>
+</div>
+<div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined" data-icon="check_box">check_box</span>
+</div>
+</div>
+<div class="mt-4 flex -space-x-2">
+<div class="w-8 h-8 rounded-full border-2 border-white bg-on-primary-fixed-variant/20 overflow-hidden">
+<img alt="Team member" class="w-full h-full object-cover" data-alt="A portrait of a young professional female designer in a minimalist studio. Bright daylight illuminates her face, reflecting a modern, tech-forward, and clean corporate aesthetic with soft white and subtle navy tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCe7SYVPer94OHCLJo18BVlMn4y4h9y_BUx15Ksfy4ukOWpCJg94F9jA6PNcHt89B8z5PobUni-y9esmzr4BdtEH9eWGwfxWEYTA6tTlhnA_Qur751hS7xAXDw-1Q_aFkkgr1UAfG98hnrSrj6f-kEyCSdxh0TmNOHv-eMedLGvWrWhfkxp-VfCX9uX3NIvnK2xmvuJZRSyKcJCD0ul4D4pQvqhNZKtrRDs4xfvCKdg88XAawOe5TV6CGGxc5XbdUzARMZKN041pnk"/>
+</div>
+<div class="w-8 h-8 rounded-full border-2 border-white bg-primary-container flex items-center justify-center text-[10px] text-white font-bold">+5</div>
+</div>
+</div>
+<!-- Quick Access Bento (Asymmetric Large) -->
+<div class="col-span-12 md:col-span-5 bg-surface-container-lowest border border-outline-variant/30 rounded-xl p-6 shadow-[4px_4px_16px_rgba(0,0,0,0.02)]">
+<div class="flex justify-between items-center mb-6">
+<h4 class="font-headline-md text-headline-md text-on-surface">Quick Access Apps</h4>
+</div>
+<div class="grid grid-cols-3 gap-6">
+<!-- App Items -->
+<div class="flex flex-col items-center gap-3 group cursor-pointer">
+<div class="w-14 h-14 bg-blue-500/10 rounded-2xl flex items-center justify-center text-blue-600 group-hover:scale-110 transition-transform shadow-sm">
+<span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">cloud</span>
+</div>
+<p class="font-label-sm text-on-surface-variant">Nextcloud</p>
+</div>
+<div class="flex flex-col items-center gap-3 group cursor-pointer">
+<div class="w-14 h-14 bg-green-500/10 rounded-2xl flex items-center justify-center text-green-600 group-hover:scale-110 transition-transform shadow-sm">
+<span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">mail</span>
+</div>
+<p class="font-label-sm text-on-surface-variant">SOGo</p>
+</div>
+<div class="flex flex-col items-center gap-3 group cursor-pointer">
+<div class="w-14 h-14 bg-purple-500/10 rounded-2xl flex items-center justify-center text-purple-600 group-hover:scale-110 transition-transform shadow-sm">
+<span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">business_center</span>
+</div>
+<p class="font-label-sm text-on-surface-variant">Odoo</p>
+</div>
+<div class="flex flex-col items-center gap-3 group cursor-pointer">
+<div class="w-14 h-14 bg-indigo-500/10 rounded-2xl flex items-center justify-center text-indigo-600 group-hover:scale-110 transition-transform shadow-sm">
+<span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">dns</span>
+</div>
+<p class="font-label-sm text-on-surface-variant">WHMCS</p>
+</div>
+<div class="flex flex-col items-center gap-3 group cursor-pointer">
+<div class="w-14 h-14 bg-orange-500/10 rounded-2xl flex items-center justify-center text-orange-600 group-hover:scale-110 transition-transform shadow-sm">
+<span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">description</span>
+</div>
+<p class="font-label-sm text-on-surface-variant">OnlyOffice</p>
+</div>
+</div>
+</div>
+<!-- Recent Files Section -->
+<div class="col-span-12 md:col-span-7 bg-surface-container-lowest border border-outline-variant/30 rounded-xl p-6 shadow-[4px_4px_16px_rgba(0,0,0,0.02)]">
+<div class="flex justify-between items-center mb-6">
+<h4 class="font-headline-md text-headline-md text-on-surface">Recent Files (Nextcloud)</h4>
+<button class="text-primary font-label-md hover:underline transition-all">View All</button>
+</div>
+<div class="space-y-1">
+<!-- File Row -->
+<div class="flex items-center justify-between p-3 hover:bg-surface-container-low rounded-lg transition-colors cursor-pointer group">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 bg-error/10 text-error rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined">picture_as_pdf</span>
+</div>
+<div>
+<p class="font-label-md text-on-surface font-bold">Proposal Project.pdf</p>
+<p class="font-label-sm text-on-surface-variant">2.4 MB • My Files</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-label-sm text-on-surface-variant">2 mins ago</p>
+<button class="opacity-0 group-hover:opacity-100 transition-opacity"><span class="material-symbols-outlined text-on-surface-variant">more_vert</span></button>
+</div>
+</div>
+<!-- File Row -->
+<div class="flex items-center justify-between p-3 hover:bg-surface-container-low rounded-lg transition-colors cursor-pointer group">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 bg-error/10 text-error rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined">picture_as_pdf</span>
+</div>
+<div>
+<p class="font-label-md text-on-surface font-bold">Invoice_2024.pdf</p>
+<p class="font-label-sm text-on-surface-variant">512 KB • Finance</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-label-sm text-on-surface-variant">1 hour ago</p>
+<button class="opacity-0 group-hover:opacity-100 transition-opacity"><span class="material-symbols-outlined text-on-surface-variant">more_vert</span></button>
+</div>
+</div>
+<!-- File Row -->
+<div class="flex items-center justify-between p-3 hover:bg-surface-container-low rounded-lg transition-colors cursor-pointer group">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 bg-green-500/10 text-green-600 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined">table_view</span>
+</div>
+<div>
+<p class="font-label-md text-on-surface font-bold">Laporan Keuangan.xlsx</p>
+<p class="font-label-sm text-on-surface-variant">1.1 MB • Accounting</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-label-sm text-on-surface-variant">3 hours ago</p>
+<button class="opacity-0 group-hover:opacity-100 transition-opacity"><span class="material-symbols-outlined text-on-surface-variant">more_vert</span></button>
+</div>
+</div>
+<!-- File Row -->
+<div class="flex items-center justify-between p-3 hover:bg-surface-container-low rounded-lg transition-colors cursor-pointer group">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 bg-orange-500/10 text-orange-600 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined">slideshow</span>
+</div>
+<div>
+<p class="font-label-md text-on-surface font-bold">Presentasi Q1.pptx</p>
+<p class="font-label-sm text-on-surface-variant">4.5 MB • Marketing</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-label-sm text-on-surface-variant">Yesterday</p>
+<button class="opacity-0 group-hover:opacity-100 transition-opacity"><span class="material-symbols-outlined text-on-surface-variant">more_vert</span></button>
+</div>
+</div>
+</div>
+</div>
+<!-- Calendar Widget -->
+<div class="col-span-12 md:col-span-5 bg-surface-container-lowest border border-outline-variant/30 rounded-xl p-6 shadow-[4px_4px_16px_rgba(0,0,0,0.02)]">
+<div class="flex justify-between items-center mb-6">
+<div>
+<h4 class="font-headline-md text-headline-md text-on-surface">Calendar (SOGo)</h4>
+<p class="font-label-sm text-on-surface-variant uppercase tracking-widest mt-1">Friday, 24 May 2024</p>
+</div>
+<button class="text-primary font-label-md hover:underline transition-all">View Calendar</button>
+</div>
+<div class="space-y-6 relative before:absolute before:left-[7px] before:top-2 before:bottom-2 before:w-[2px] before:bg-surface-container">
+<!-- Meeting 1 -->
+<div class="relative pl-8 group">
+<div class="absolute left-0 top-1.5 w-4 h-4 rounded-full border-2 border-white bg-primary-container z-10 shadow-sm"></div>
+<div class="bg-surface-container-low p-4 rounded-xl group-hover:shadow-md transition-shadow">
+<p class="font-label-sm text-primary-container font-bold mb-1">10:00 - 11:00</p>
+<h5 class="font-label-md text-on-surface font-bold">Meeting Project Alpha</h5>
+<p class="font-label-sm text-on-surface-variant mt-2 flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">location_on</span> Conference Room B
+                            </p>
+</div>
+</div>
+<!-- Meeting 2 -->
+<div class="relative pl-8 group">
+<div class="absolute left-0 top-1.5 w-4 h-4 rounded-full border-2 border-white bg-orange-500 z-10 shadow-sm"></div>
+<div class="bg-surface-container-low p-4 rounded-xl group-hover:shadow-md transition-shadow">
+<p class="font-label-sm text-orange-600 font-bold mb-1">14:00 - 15:00</p>
+<h5 class="font-label-md text-on-surface font-bold">Review Laporan</h5>
+<p class="font-label-sm text-on-surface-variant mt-2 flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">videocam</span> Google Meet
+                            </p>
+</div>
+</div>
+</div>
+</div>
+<!-- Recent Activity Feed -->
+<div class="col-span-12 md:col-span-7 bg-surface-container-lowest border border-outline-variant/30 rounded-xl p-6 shadow-[4px_4px_16px_rgba(0,0,0,0.02)]">
+<div class="flex justify-between items-center mb-6">
+<h4 class="font-headline-md text-headline-md text-on-surface">Recent Activity</h4>
+</div>
+<div class="space-y-6">
+<!-- Activity Item 1 -->
+<div class="flex gap-4">
+<div class="relative">
+<div class="w-10 h-10 rounded-full bg-primary-container/20 flex items-center justify-center overflow-hidden">
+<img alt="Admin" class="w-full h-full object-cover" data-alt="A professional male administrator working in a high-tech modern office environment. The scene is illuminated with cold white light and features premium design elements like glass partitions and minimalist furniture, matching a professional enterprise dashboard look." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCcTV06s5U_OhpUtVWygSm4zgwRKSr0hJfHw8ZUfJT4GtbDhmcCQ5lh2TlqtwdO857ElG_8_Zq_DIxoymN3y5uPAjQGEf0HgEzhQ0DDw3z5u3jD6p85ktxomqhrzlPu2yTX8kAGPDSeWNSPkXXIrChyPj9rMmC8t-98uTu1s3jqeDxLwxCB_cPOEIcqmoXGMwXQD6YPzcyebRgv-tFUvSbRtq7x12c7XFBPW2qZzHsFXj4hzpId7ITW0xoloTKOiDNRnwh9ZMwOgaU"/>
+</div>
+<div class="absolute -bottom-1 -right-1 w-5 h-5 bg-primary-container rounded-full flex items-center justify-center text-[10px] text-white border-2 border-white shadow-sm">
+<span class="material-symbols-outlined text-xs">upload</span>
+</div>
+</div>
+<div>
+<p class="font-body-md text-on-surface"><span class="font-bold">You uploaded</span> <span class="text-primary-container font-bold cursor-pointer hover:underline">Laporan Keuangan.xlsx</span></p>
+<p class="font-label-sm text-on-surface-variant mt-1">3 hours ago</p>
+</div>
+</div>
+<!-- Activity Item 2 -->
+<div class="flex gap-4">
+<div class="relative">
+<div class="w-10 h-10 rounded-full bg-tertiary-container/20 flex items-center justify-center overflow-hidden">
+<img alt="Budi" class="w-full h-full object-cover" data-alt="A portrait of a male tech professional with a friendly smile, set in a bright contemporary office space. The lighting is natural and even, reflecting a high-quality light-mode corporate UI design system that emphasizes clarity and human-centric workspace." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfvUH-0u5Raf3molpQLt2irH1O3afN8dHkQKLI4qOggHNFIsIZ7TtZLedQ_kIXGCRkJeAv8Zd2tV3DUXzV6zccEtj2y2J4kwDl3bHpQtaFLtyUrAHJ1kU4HOxYwM6yDV5v4WNbUdhBa9042NVwnMiPwxUqToQiKSjAHu4GdVD3g8440g-i2eRokOjQGuHxttxqe5HhGSj5njg_unR98jEruzPpefY59jHjopq-721XoXPQgPSz2Yzl1zjhWf4QT8Dd7ZJv0Lq71U0"/>
+</div>
+<div class="absolute -bottom-1 -right-1 w-5 h-5 bg-tertiary-container rounded-full flex items-center justify-center text-[10px] text-white border-2 border-white shadow-sm">
+<span class="material-symbols-outlined text-xs">share</span>
+</div>
+</div>
+<div>
+<p class="font-body-md text-on-surface"><span class="font-bold">Budi shared file</span> <span class="text-primary-container font-bold cursor-pointer hover:underline">Proposal Project.pdf</span></p>
+<p class="font-label-sm text-on-surface-variant mt-1">5 hours ago</p>
+</div>
+</div>
+<!-- Activity Item 3 -->
+<div class="flex gap-4">
+<div class="relative">
+<div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface-variant">edit</span>
+</div>
+</div>
+<div>
+<p class="font-body-md text-on-surface"><span class="font-bold">Task Design UI updated</span> in Odoo</p>
+<p class="font-label-sm text-on-surface-variant mt-1">Yesterday</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- App Launcher Overlay (Glassmorphism Modal) -->
+<div class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-inverse-surface/40 backdrop-blur-sm transition-opacity duration-300" id="appLauncher">
+<div class="bg-surface-container-lowest w-full max-w-[440px] rounded-2xl shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+<!-- Header -->
+<div class="px-8 pt-8 pb-4 flex justify-between items-center">
+<h3 class="font-headline-md text-headline-md text-on-surface">App Launcher</h3>
+<button class="text-primary font-label-md font-bold hover:underline">Customize</button>
+</div>
+<!-- Grid 4x2 -->
+<div class="p-8 grid grid-cols-4 gap-6">
+<!-- App -->
+<button class="flex flex-col items-center gap-2 group transition-transform hover:-translate-y-1">
+<div class="w-14 h-14 bg-blue-600 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-blue-500/20">
+<span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">cloud</span>
+</div>
+<p class="font-label-sm text-on-surface-variant font-medium">Nextcloud</p>
+</button>
+<!-- App -->
+<button class="flex flex-col items-center gap-2 group transition-transform hover:-translate-y-1">
+<div class="w-14 h-14 bg-green-500 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-green-500/20">
+<span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">mail</span>
+</div>
+<p class="font-label-sm text-on-surface-variant font-medium">SOGo</p>
+</button>
+<!-- App -->
+<button class="flex flex-col items-center gap-2 group transition-transform hover:-translate-y-1">
+<div class="w-14 h-14 bg-purple-600 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-purple-500/20">
+<span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">business_center</span>
+</div>
+<p class="font-label-sm text-on-surface-variant font-medium">Odoo</p>
+</button>
+<!-- App -->
+<button class="flex flex-col items-center gap-2 group transition-transform hover:-translate-y-1">
+<div class="w-14 h-14 bg-blue-400 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-blue-400/20">
+<span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">dns</span>
+</div>
+<p class="font-label-sm text-on-surface-variant font-medium">WHMCS</p>
+</button>
+<!-- App -->
+<button class="flex flex-col items-center gap-2 group transition-transform hover:-translate-y-1">
+<div class="w-14 h-14 bg-orange-600 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-orange-600/20">
+<span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">description</span>
+</div>
+<p class="font-label-sm text-on-surface-variant font-medium">OnlyOffice</p>
+</button>
+<!-- App -->
+<button class="flex flex-col items-center gap-2 group transition-transform hover:-translate-y-1">
+<div class="w-14 h-14 bg-indigo-600 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-indigo-600/20">
+<span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">history_edu</span>
+</div>
+<p class="font-label-sm text-on-surface-variant font-medium">Collabora</p>
+</button>
+<!-- App -->
+<button class="flex flex-col items-center gap-2 group transition-transform hover:-translate-y-1">
+<div class="w-14 h-14 bg-cyan-600 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-cyan-600/20">
+<span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">vpn_key</span>
+</div>
+<p class="font-label-sm text-on-surface-variant font-medium">Passman</p>
+</button>
+<!-- App (Placeholder) -->
+<button class="flex flex-col items-center gap-2 group transition-transform hover:-translate-y-1">
+<div class="w-14 h-14 bg-surface-container border-2 border-dashed border-outline-variant rounded-2xl flex items-center justify-center text-outline transition-colors group-hover:bg-primary/5 group-hover:border-primary">
+<span class="material-symbols-outlined text-3xl">add</span>
+</div>
+<p class="font-label-sm text-outline group-hover:text-primary transition-colors">Add New</p>
+</button>
+</div>
+<!-- Footer Action -->
+<div class="p-6 bg-surface-container-low flex justify-center">
+<button class="w-full max-w-sm bg-primary-container text-white py-3 rounded-xl font-label-md flex items-center justify-center gap-2 hover:bg-primary transition-colors shadow-lg shadow-primary-container/20" onclick="toggleAppLauncher()">
+<span class="material-symbols-outlined text-lg">grid_view</span>
+                    View All Applications
+                </button>
+</div>
+</div>
+<!-- Close overlay on click -->
+<div class="absolute inset-0 -z-10" onclick="toggleAppLauncher()"></div>
+</div>
+<script>
+        function toggleAppLauncher() {
+            const launcher = document.getElementById('appLauncher');
+            if (launcher.classList.contains('hidden')) {
+                launcher.classList.remove('hidden');
+                launcher.classList.add('flex');
+                document.body.style.overflow = 'hidden';
+            } else {
+                launcher.classList.add('hidden');
+                launcher.classList.remove('flex');
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        // Close on escape key
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                const launcher = document.getElementById('appLauncher');
+                if (!launcher.classList.contains('hidden')) toggleAppLauncher();
+            }
+        });
+    </script>
+</body></html>

@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Admin Settings - MyWorkspace</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Hanken+Grotesk:wght@600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-highest": "#e0e3e5",
+                        "tertiary-fixed-dim": "#7bd0ff",
+                        "surface-dim": "#d8dadc",
+                        "secondary-container": "#dae2fd",
+                        "on-surface-variant": "#434654",
+                        "on-secondary": "#ffffff",
+                        "secondary": "#565e74",
+                        "error-container": "#ffdad6",
+                        "on-primary-fixed": "#001848",
+                        "inverse-surface": "#2d3133",
+                        "background": "#f7f9fb",
+                        "outline": "#737685",
+                        "on-tertiary": "#ffffff",
+                        "tertiary": "#004964",
+                        "on-background": "#191c1e",
+                        "primary-fixed": "#dae2ff",
+                        "on-error-container": "#93000a",
+                        "on-primary-container": "#c4d2ff",
+                        "on-primary-fixed-variant": "#0040a2",
+                        "error": "#ba1a1a",
+                        "on-surface": "#191c1e",
+                        "on-secondary-container": "#5c647a",
+                        "surface-variant": "#e0e3e5",
+                        "on-tertiary-fixed-variant": "#004c69",
+                        "secondary-fixed-dim": "#bec6e0",
+                        "secondary-fixed": "#dae2fd",
+                        "on-tertiary-fixed": "#001e2c",
+                        "surface-container-low": "#f2f4f6",
+                        "surface-container-lowest": "#ffffff",
+                        "outline-variant": "#c3c6d6",
+                        "surface": "#f7f9fb",
+                        "primary-fixed-dim": "#b2c5ff",
+                        "surface-container-high": "#e6e8ea",
+                        "surface-container": "#eceef0",
+                        "on-primary": "#ffffff",
+                        "tertiary-container": "#006285",
+                        "primary-container": "#0052cc",
+                        "tertiary-fixed": "#c4e7ff",
+                        "surface-tint": "#0c56d0",
+                        "primary": "#003d9b",
+                        "inverse-on-surface": "#eff1f3",
+                        "on-tertiary-container": "#9fdbff",
+                        "on-secondary-fixed": "#131b2e",
+                        "on-secondary-fixed-variant": "#3f465c",
+                        "inverse-primary": "#b2c5ff",
+                        "surface-bright": "#f7f9fb",
+                        "on-error": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-desktop": "64px",
+                        "container-padding": "24px",
+                        "base": "8px",
+                        "gutter": "16px",
+                        "margin-mobile": "16px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "headline-lg-mobile": ["Hanken Grotesk"],
+                        "body-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "display-xl": ["Hanken Grotesk"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "headline-lg": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "display-xl": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #f7f9fb;
+        }
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+</head>
+<body class="font-body-md text-on-surface">
+<!-- Sidebar Navigation -->
+<aside class="fixed left-0 top-0 h-full w-[280px] bg-[#0F172A] flex flex-col p-6 z-40">
+<div class="mb-10 px-2">
+<h1 class="text-headline-md font-headline-md font-black text-white flex items-center gap-2">
+<span class="bg-primary-container p-1 rounded-lg">
+<span class="material-symbols-outlined text-on-primary-container" style="font-variation-settings: 'FILL' 1;">cloud</span>
+</span>
+                MyWorkspace
+            </h1>
+<p class="text-label-sm text-outline-variant mt-1 opacity-60">Enterprise Portal</p>
+</div>
+<nav class="flex-grow space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-outline-variant hover:text-white hover:bg-white/5 transition-all rounded-lg" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-outline-variant hover:text-white hover:bg-white/5 transition-all rounded-lg" href="#">
+<span class="material-symbols-outlined">apps</span>
+<span class="font-label-md text-label-md">Apps</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-outline-variant hover:text-white hover:bg-white/5 transition-all rounded-lg" href="#">
+<span class="material-symbols-outlined">cloud</span>
+<span class="font-label-md text-label-md">Drive</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-outline-variant hover:text-white hover:bg-white/5 transition-all rounded-lg" href="#">
+<span class="material-symbols-outlined">mail</span>
+<span class="font-label-md text-label-md">Mail</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-outline-variant hover:text-white hover:bg-white/5 transition-all rounded-lg" href="#">
+<span class="material-symbols-outlined">calendar_today</span>
+<span class="font-label-md text-label-md">Calendar</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-outline-variant hover:text-white hover:bg-white/5 transition-all rounded-lg" href="#">
+<span class="material-symbols-outlined">assignment</span>
+<span class="font-label-md text-label-md">Tasks</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-outline-variant hover:text-white hover:bg-white/5 transition-all rounded-lg" href="#">
+<span class="material-symbols-outlined">history</span>
+<span class="font-label-md text-label-md">Activity</span>
+</a>
+<!-- Active State: Settings -->
+<a class="flex items-center gap-3 px-4 py-3 bg-primary-container text-on-primary-container rounded-lg font-bold" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+</nav>
+<div class="mt-auto pt-6 border-t border-white/10 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-outline-variant hover:text-white hover:bg-white/5 transition-all rounded-lg" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="font-label-md text-label-md">Help</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-outline-variant hover:text-white hover:bg-white/5 transition-all rounded-lg" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-label-md text-label-md">Logout</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-[280px] min-h-screen">
+<!-- Top App Bar -->
+<header class="h-16 flex items-center justify-between px-margin-desktop bg-surface-container-lowest shadow-sm sticky top-0 z-30">
+<h2 class="text-headline-md font-headline-md font-bold text-on-surface">Admin Settings</h2>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2">
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-low transition-colors rounded-full">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-low transition-colors rounded-full">
+<span class="material-symbols-outlined">apps</span>
+</button>
+</div>
+<div class="flex items-center gap-3 border-l pl-6 border-outline-variant">
+<div class="text-right">
+<p class="text-label-md font-bold leading-tight">Admin</p>
+<p class="text-label-sm text-outline-variant leading-tight">Administrator</p>
+</div>
+<div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container font-bold text-lg overflow-hidden">
+                        A
+                    </div>
+<span class="material-symbols-outlined text-outline-variant">expand_more</span>
+</div>
+</div>
+</header>
+<div class="p-margin-desktop space-y-8">
+<!-- User Management Section -->
+<section class="space-y-4">
+<div class="flex justify-between items-center">
+<h3 class="text-headline-md font-headline-md text-on-surface">User Management</h3>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden shadow-sm">
+<div class="p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-outline-variant">
+<div class="relative w-full max-w-sm">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline-variant">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container rounded-lg border-none focus:ring-2 focus:ring-primary-container text-body-md" placeholder="Search users..." type="text"/>
+</div>
+<button class="flex items-center gap-2 bg-primary-container text-on-primary-container px-6 py-2.5 rounded-lg font-bold hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined">person_add</span>
+                            Add User
+                        </button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low border-b border-outline-variant">
+<th class="px-6 py-4 text-label-sm font-bold text-on-surface-variant">Name</th>
+<th class="px-6 py-4 text-label-sm font-bold text-on-surface-variant">Email</th>
+<th class="px-6 py-4 text-label-sm font-bold text-on-surface-variant">Role</th>
+<th class="px-6 py-4 text-label-sm font-bold text-on-surface-variant">Status</th>
+<th class="px-6 py-4 text-label-sm font-bold text-on-surface-variant text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant">
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="px-6 py-4 font-label-md text-on-surface">Sarah Jenkins</td>
+<td class="px-6 py-4 text-body-md text-on-surface-variant">s.jenkins@domain.com</td>
+<td class="px-6 py-4 text-body-md">Administrator</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-secondary-container text-on-secondary-container">Active</span>
+</td>
+<td class="px-6 py-4 text-right space-x-2">
+<button class="p-1.5 text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined text-[20px]">edit</span></button>
+<button class="p-1.5 text-on-surface-variant hover:text-error transition-colors"><span class="material-symbols-outlined text-[20px]">delete</span></button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="px-6 py-4 font-label-md text-on-surface">Michael Chen</td>
+<td class="px-6 py-4 text-body-md text-on-surface-variant">m.chen@domain.com</td>
+<td class="px-6 py-4 text-body-md">Editor</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-secondary-container text-on-secondary-container">Active</span>
+</td>
+<td class="px-6 py-4 text-right space-x-2">
+<button class="p-1.5 text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined text-[20px]">edit</span></button>
+<button class="p-1.5 text-on-surface-variant hover:text-error transition-colors"><span class="material-symbols-outlined text-[20px]">delete</span></button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="px-6 py-4 font-label-md text-on-surface">Elena Rodriguez</td>
+<td class="px-6 py-4 text-body-md text-on-surface-variant">e.rodriguez@domain.com</td>
+<td class="px-6 py-4 text-body-md">Viewer</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-surface-container-highest text-on-surface-variant">Offline</span>
+</td>
+<td class="px-6 py-4 text-right space-x-2">
+<button class="p-1.5 text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined text-[20px]">edit</span></button>
+<button class="p-1.5 text-on-surface-variant hover:text-error transition-colors"><span class="material-symbols-outlined text-[20px]">delete</span></button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="px-6 py-4 border-t border-outline-variant flex items-center justify-between">
+<p class="text-label-sm text-outline-variant">Showing 1 to 3 of 12,450 users</p>
+<div class="flex gap-2">
+<button class="px-4 py-2 border border-outline-variant rounded-lg text-label-sm font-bold hover:bg-surface-container-low transition-colors disabled:opacity-50">Previous</button>
+<button class="w-10 h-10 bg-primary-container text-on-primary-container rounded-lg font-bold text-label-sm">1</button>
+<button class="w-10 h-10 border border-outline-variant rounded-lg font-bold text-label-sm hover:bg-surface-container-low transition-colors">2</button>
+<button class="w-10 h-10 border border-outline-variant rounded-lg font-bold text-label-sm hover:bg-surface-container-low transition-colors">3</button>
+<button class="px-4 py-2 border border-outline-variant rounded-lg text-label-sm font-bold hover:bg-surface-container-low transition-colors">Next</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Branding & Customization Section -->
+<section class="space-y-4">
+<h3 class="text-headline-md font-headline-md text-on-surface">Branding &amp; Customization</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+<!-- Logo Configuration -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-8 shadow-sm flex flex-col">
+<h4 class="text-headline-md font-bold mb-2">Logo Configuration</h4>
+<p class="text-on-surface-variant text-body-md mb-8">Manage the primary workspace logo appearing in the sidebar.</p>
+<div class="flex items-center gap-8 bg-surface-container-low p-6 rounded-xl border border-dashed border-outline-variant">
+<div class="w-24 h-24 bg-surface-container-highest rounded-lg flex items-center justify-center border border-outline-variant">
+<span class="material-symbols-outlined text-outline-variant text-[40px]">image</span>
+</div>
+<div class="space-y-4">
+<button class="bg-primary-container text-on-primary-container px-6 py-2.5 rounded-lg font-bold hover:opacity-90 transition-opacity">
+                                    Change Logo
+                                </button>
+<p class="text-label-sm text-outline-variant">Recommended size: 512×512px</p>
+</div>
+</div>
+</div>
+<!-- Text Configuration -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-8 shadow-sm">
+<h4 class="text-headline-md font-bold mb-2">Text Configuration</h4>
+<div class="space-y-6">
+<div>
+<label class="block text-label-md font-bold text-on-surface-variant mb-2">Portal Name</label>
+<input class="w-full px-4 py-3 bg-surface-container rounded-lg border border-outline-variant focus:ring-2 focus:ring-primary-container text-body-md font-medium" type="text" value="MyWorkspace"/>
+</div>
+<div>
+<label class="block text-label-md font-bold text-on-surface-variant mb-2">Portal Subtext</label>
+<input class="w-full px-4 py-3 bg-surface-container rounded-lg border border-outline-variant focus:ring-2 focus:ring-primary-container text-body-md font-medium" type="text" value="Enterprise Portal"/>
+</div>
+<button class="w-full bg-primary-container text-on-primary-container px-6 py-3 rounded-lg font-bold hover:opacity-90 transition-opacity mt-4">
+                                Save Changes
+                            </button>
+</div>
+</div>
+</div>
+</section>
+<!-- Application Integrations & SSO Section -->
+<section class="space-y-4">
+<h3 class="text-headline-md font-headline-md text-on-surface">Application Integrations &amp; SSO</h3>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<!-- Nextcloud Hub -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow group">
+<div class="flex justify-between items-start mb-6">
+<div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center text-blue-600">
+<span class="material-symbols-outlined text-[28px]" style="font-variation-settings: 'FILL' 1;">cloud_sync</span>
+</div>
+<span class="px-2 py-1 bg-surface-container text-on-surface-variant text-[10px] font-black tracking-widest rounded-md border border-outline-variant">OIDC</span>
+</div>
+<h4 class="text-headline-md font-bold mb-1">Nextcloud Hub</h4>
+<p class="text-on-surface-variant text-body-md mb-6">File sync and share across multiple devices.</p>
+<div class="pt-6 border-t border-outline-variant flex justify-between items-center">
+<span class="text-label-md text-on-surface-variant">Active Users</span>
+<span class="text-headline-md font-black">8,204</span>
+</div>
+</div>
+<!-- SOGo Webmail -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow group">
+<div class="flex justify-between items-start mb-6">
+<div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center text-orange-600">
+<span class="material-symbols-outlined text-[28px]" style="font-variation-settings: 'FILL' 1;">mail</span>
+</div>
+<span class="px-2 py-1 bg-surface-container text-on-surface-variant text-[10px] font-black tracking-widest rounded-md border border-outline-variant">SAML</span>
+</div>
+<h4 class="text-headline-md font-bold mb-1">SOGo Webmail</h4>
+<p class="text-on-surface-variant text-body-md mb-6">Groupware server focusing on scalability.</p>
+<div class="pt-6 border-t border-outline-variant flex justify-between items-center">
+<span class="text-label-md text-on-surface-variant">Active Users</span>
+<span class="text-headline-md font-black">5,112</span>
+</div>
+</div>
+<!-- Odoo ERP -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow group">
+<div class="flex justify-between items-start mb-6">
+<div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center text-purple-600">
+<span class="material-symbols-outlined text-[28px]" style="font-variation-settings: 'FILL' 1;">business_center</span>
+</div>
+<span class="px-2 py-1 bg-surface-container text-on-surface-variant text-[10px] font-black tracking-widest rounded-md border border-outline-variant">OIDC</span>
+</div>
+<h4 class="text-headline-md font-bold mb-1">Odoo ERP</h4>
+<p class="text-on-surface-variant text-body-md mb-6">Business management software suite.</p>
+<div class="pt-6 border-t border-outline-variant flex justify-between items-center">
+<span class="text-label-md text-on-surface-variant">Active Users</span>
+<span class="text-headline-md font-black">1,405</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Storage & Infrastructure Section -->
+<section class="space-y-4">
+<h3 class="text-headline-md font-headline-md text-on-surface">Storage &amp; Infrastructure</h3>
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-8 shadow-sm">
+<div class="flex justify-between items-end mb-6">
+<div>
+<p class="text-label-md font-bold text-on-surface-variant mb-1">Global Storage Usage</p>
+<h4 class="text-display-xl font-black text-on-surface">42.5 TB <span class="text-headline-md text-outline-variant font-normal">of 100 TB</span></h4>
+</div>
+<div class="text-right">
+<span class="text-headline-md font-black text-on-surface">42.5%</span>
+</div>
+</div>
+<div class="w-full h-4 bg-surface-container-high rounded-full overflow-hidden flex">
+<div class="h-full bg-blue-600 w-[24%]" title="Nextcloud"></div>
+<div class="h-full bg-orange-600 w-[12%]" title="SOGo"></div>
+<div class="h-full bg-purple-800 w-[6.5%]" title="Odoo"></div>
+</div>
+<div class="flex gap-8 mt-8">
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 rounded-full bg-blue-600"></div>
+<span class="text-label-md font-medium text-on-surface-variant">Nextcloud</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 rounded-full bg-orange-600"></div>
+<span class="text-label-md font-medium text-on-surface-variant">SOGo</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 rounded-full bg-purple-800"></div>
+<span class="text-label-md font-medium text-on-surface-variant">Odoo</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 rounded-full bg-surface-container-high"></div>
+<span class="text-label-md font-medium text-on-surface-variant">Free Space</span>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+<script>
+        // Simple interactivity for table row hover states and form focus
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('focus', () => {
+                input.parentElement.classList.add('ring-offset-2');
+            });
+            input.addEventListener('blur', () => {
+                input.parentElement.classList.remove('ring-offset-2');
+            });
+        });
+    </script>
+</body></html>

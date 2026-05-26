@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Login | MyWorkspace</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Hanken+Grotesk:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Design System Tokens -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+              "on-secondary": "#ffffff",
+              "secondary-fixed-dim": "#bec6e0",
+              "tertiary-fixed": "#c4e7ff",
+              "tertiary-fixed-dim": "#7bd0ff",
+              "primary-fixed": "#dae2ff",
+              "on-primary-fixed-variant": "#0040a2",
+              "error-container": "#ffdad6",
+              "surface-container-highest": "#e0e3e5",
+              "on-secondary-fixed-variant": "#3f465c",
+              "surface-container-high": "#e6e8ea",
+              "on-surface-variant": "#434654",
+              "background": "#f7f9fb",
+              "on-secondary-fixed": "#131b2e",
+              "primary-container": "#0052cc",
+              "on-error": "#ffffff",
+              "surface-tint": "#0c56d0",
+              "on-error-container": "#93000a",
+              "inverse-primary": "#b2c5ff",
+              "outline-variant": "#c3c6d6",
+              "secondary-fixed": "#dae2fd",
+              "surface-container-low": "#f2f4f6",
+              "on-primary": "#ffffff",
+              "secondary": "#565e74",
+              "on-primary-container": "#c4d2ff",
+              "inverse-surface": "#2d3133",
+              "on-tertiary-container": "#9fdbff",
+              "surface-container": "#eceef0",
+              "surface-dim": "#d8dadc",
+              "secondary-container": "#dae2fd",
+              "primary": "#003d9b",
+              "outline": "#737685",
+              "on-tertiary-fixed": "#001e2c",
+              "surface": "#f7f9fb",
+              "on-secondary-container": "#5c647a",
+              "tertiary-container": "#006285",
+              "surface-bright": "#f7f9fb",
+              "tertiary": "#004964",
+              "on-surface": "#191c1e",
+              "on-tertiary": "#ffffff",
+              "surface-variant": "#e0e3e5",
+              "surface-container-lowest": "#ffffff",
+              "on-primary-fixed": "#001848",
+              "on-tertiary-fixed-variant": "#004c69",
+              "inverse-on-surface": "#eff1f3",
+              "primary-fixed-dim": "#b2c5ff",
+              "on-background": "#191c1e",
+              "error": "#ba1a1a"
+            },
+            "borderRadius": {
+              "DEFAULT": "0.25rem",
+              "lg": "0.5rem",
+              "xl": "0.75rem",
+              "full": "9999px"
+            },
+            "spacing": {
+              "gutter": "16px",
+              "container-padding": "24px",
+              "base": "8px",
+              "margin-mobile": "16px",
+              "margin-desktop": "64px"
+            },
+            "fontFamily": {
+              "body-lg": ["Inter"],
+              "headline-lg": ["Hanken Grotesk"],
+              "display-xl": ["Hanken Grotesk"],
+              "label-sm": ["Inter"],
+              "body-md": ["Inter"],
+              "headline-lg-mobile": ["Hanken Grotesk"],
+              "label-md": ["Inter"],
+              "headline-md": ["Hanken Grotesk"]
+            },
+            "fontSize": {
+              "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+              "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+              "display-xl": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+              "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+              "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+              "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+              "label-md": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+              "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-badge {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .primary-button-glow:hover {
+            box-shadow: 0 0 20px rgba(0, 82, 204, 0.3);
+        }
+        .auth-card {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02), 0 12px 32px rgba(0, 82, 204, 0.08);
+        }
+    </style>
+</head>
+<body class="bg-background min-h-screen flex items-stretch">
+<!-- Split Screen: Left Side (Corporate Modernism / Branding) -->
+<div class="hidden lg:flex w-1/2 bg-on-secondary-fixed flex-col justify-between p-margin-desktop relative overflow-hidden">
+<!-- Ambient Blue Glows -->
+<div class="absolute -top-40 -left-40 w-[600px] h-[600px] bg-primary opacity-10 blur-[120px] rounded-full"></div>
+<div class="absolute -bottom-40 -right-40 w-[600px] h-[600px] bg-tertiary opacity-5 blur-[120px] rounded-full"></div>
+<!-- Header -->
+<div class="relative z-10">
+<h1 class="font-headline-md text-headline-md text-surface-bright font-extrabold tracking-tight">MyWorkspace</h1>
+<p class="font-body-lg text-body-lg text-secondary-fixed-dim mt-2 opacity-80">Unified Workspace for Modern Teams</p>
+</div>
+<!-- Central Illustration Container -->
+<div class="relative z-10 flex items-center justify-center py-12">
+<div class="relative group">
+<div class="absolute inset-0 bg-primary/20 blur-3xl scale-95 group-hover:scale-105 transition-transform duration-700"></div>
+<img class="w-full max-w-lg rounded-xl auth-card border border-on-secondary-fixed-variant relative z-10" data-alt="A high-end digital dashboard interface displayed on a futuristic transparent glass tablet. The UI features sleek blue gradients, complex data visualizations, and minimalist icon clusters. The background is a deep navy environment with soft ambient blue lighting, creating a professional and secure atmosphere for an enterprise productivity suite." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCIV1EwCg-UL821MxQ4eMUkbOKSVosHGe3uaNViTM9dV-nGgENDGcbyLv-piapi1Oi2kvaqXLvFSoUG_CwPF62hsoGPgoQA-AdsHK9v1WWtUY8OVQGezjXOY9Op-7Hklui_HridCrSpj2T9xusowIk0hfv-ucqyLdSCALAtVQEErsM-tJ0SUWS4o5FRKOIbO9qLkxQGAEpeAe5p6IHZWswE3oNTNjDyh5Dwv9xA7r1cFKhjtGDdZZ2QTe8yazYRImLhLMpTTTjwPzo"/>
+<!-- Floating Glass Elements -->
+<div class="absolute -top-6 -right-6 glass-badge p-4 rounded-xl z-20 flex items-center gap-3 animate-bounce shadow-2xl" style="animation-duration: 3s;">
+<span class="material-symbols-outlined text-primary-fixed" data-icon="cloud_done">cloud_done</span>
+<span class="text-surface-bright font-label-md">Cloud Synced</span>
+</div>
+</div>
+</div>
+<!-- Value Propositions -->
+<div class="relative z-10 grid grid-cols-1 gap-6">
+<div class="flex items-center gap-4 text-surface-bright transition-all hover:translate-x-1">
+<div class="w-10 h-10 rounded-lg bg-primary-container/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary-fixed" data-icon="encrypted">encrypted</span>
+</div>
+<span class="font-body-md text-body-md">Secure Cloud Storage</span>
+</div>
+<div class="flex items-center gap-4 text-surface-bright transition-all hover:translate-x-1">
+<div class="w-10 h-10 rounded-lg bg-primary-container/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary-fixed" data-icon="groups">groups</span>
+</div>
+<span class="font-body-md text-body-md">Team Collaboration</span>
+</div>
+<div class="flex items-center gap-4 text-surface-bright transition-all hover:translate-x-1">
+<div class="w-10 h-10 rounded-lg bg-primary-container/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary-fixed" data-icon="bolt">bolt</span>
+</div>
+<span class="font-body-md text-body-md">Smart Productivity</span>
+</div>
+<div class="flex items-center gap-4 text-surface-bright transition-all hover:translate-x-1">
+<div class="w-10 h-10 rounded-lg bg-primary-container/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary-fixed" data-icon="apps">apps</span>
+</div>
+<span class="font-body-md text-body-md">Integrated Apps</span>
+</div>
+<div class="flex items-center gap-4 text-surface-bright transition-all hover:translate-x-1">
+<div class="w-10 h-10 rounded-lg bg-primary-container/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary-fixed" data-icon="admin_panel_settings">admin_panel_settings</span>
+</div>
+<span class="font-body-md text-body-md">Enterprise Security</span>
+</div>
+</div>
+</div>
+<!-- Right Side (Focus Task: Authentication) -->
+<div class="w-full lg:w-1/2 flex flex-col items-center justify-center p-gutter md:p-margin-desktop bg-surface-container-lowest">
+<!-- Mobile Logo -->
+<div class="lg:hidden absolute top-12 left-1/2 -translate-x-1/2">
+<h1 class="font-headline-md text-headline-md text-on-surface font-extrabold tracking-tight">MyWorkspace</h1>
+</div>
+<div class="w-full max-w-md auth-card bg-surface-container-lowest border border-outline-variant rounded-[16px] p-8 md:p-10">
+<!-- Form Header -->
+<div class="text-center mb-10">
+<div class="w-14 h-14 bg-primary-container rounded-xl flex items-center justify-center mx-auto mb-6 shadow-lg shadow-primary-container/20">
+<span class="material-symbols-outlined text-white text-3xl" data-icon="lock" data-weight="fill" style="font-variation-settings: 'FILL' 1;">lock</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Welcome back</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-2">Please enter your details to sign in.</p>
+</div>
+<!-- Login Form -->
+<form class="space-y-6" id="loginForm">
+<!-- Email -->
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-2" for="email">Email</label>
+<div class="relative group">
+<div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-outline">
+<span class="material-symbols-outlined text-[20px]" data-icon="mail">mail</span>
+</div>
+<input class="block w-full pl-11 pr-4 py-3 bg-white border border-outline-variant rounded-lg font-body-md text-body-md text-on-surface placeholder:text-outline focus:ring-2 focus:ring-primary-container/20 focus:border-primary-container transition-all outline-none" id="email" placeholder="Enter your email" required="" type="email"/>
+</div>
+</div>
+<!-- Password -->
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-2" for="password">Password</label>
+<div class="relative group">
+<div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-outline">
+<span class="material-symbols-outlined text-[20px]" data-icon="key">key</span>
+</div>
+<input class="block w-full pl-11 pr-12 py-3 bg-white border border-outline-variant rounded-lg font-body-md text-body-md text-on-surface placeholder:text-outline focus:ring-2 focus:ring-primary-container/20 focus:border-primary-container transition-all outline-none" id="password" placeholder="••••••••" required="" type="password"/>
+<button class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-outline hover:text-on-surface transition-colors" onclick="togglePassword()" type="button">
+<span class="material-symbols-outlined text-[20px]" data-icon="visibility" id="passIcon">visibility</span>
+</button>
+</div>
+</div>
+<!-- Turnstile Verification -->
+<div class="p-4 bg-surface-container-low border border-outline-variant rounded-lg flex items-center justify-between group cursor-pointer hover:bg-surface-container transition-colors">
+<div class="flex items-center gap-3">
+<div class="w-6 h-6 border-2 border-outline-variant rounded bg-white flex items-center justify-center group-hover:border-primary transition-colors" id="verifyBox">
+<span class="material-symbols-outlined text-primary hidden" data-icon="check" id="checkMark">check</span>
+</div>
+<span class="font-label-md text-label-md text-on-surface">Verify you are human</span>
+</div>
+<span class="material-symbols-outlined text-outline text-[20px]" data-icon="verified_user">verified_user</span>
+</div>
+<!-- Remember & Forgot -->
+<div class="flex items-center justify-between">
+<label class="flex items-center gap-2 cursor-pointer group">
+<input class="w-4 h-4 rounded border-outline-variant text-primary-container focus:ring-primary-container focus:ring-offset-0" type="checkbox"/>
+<span class="font-label-md text-label-md text-on-surface-variant group-hover:text-on-surface transition-colors">Remember me</span>
+</label>
+<a class="font-label-md text-label-md text-primary-container font-semibold hover:underline decoration-primary-container/30 transition-all" href="#">Forgot password?</a>
+</div>
+<!-- Sign In Button -->
+<button class="w-full h-[44px] bg-primary-container hover:bg-primary text-on-primary font-label-md text-label-md rounded-lg flex items-center justify-center gap-2 transition-all active:scale-[0.98] primary-button-glow" type="submit">
+                    Sign In
+                    <span class="material-symbols-outlined text-[18px]" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</form>
+<!-- Social Login / Footer -->
+<div class="mt-8 pt-8 border-t border-outline-variant">
+<p class="text-center font-label-sm text-label-sm text-on-surface-variant">
+                    Don't have an account? <a class="text-primary-container font-semibold hover:underline" href="#">Request Access</a>
+</p>
+</div>
+</div>
+</div>
+<script>
+        function togglePassword() {
+            const passInput = document.getElementById('password');
+            const passIcon = document.getElementById('passIcon');
+            if (passInput.type === 'password') {
+                passInput.type = 'text';
+                passIcon.innerText = 'visibility_off';
+            } else {
+                passInput.type = 'password';
+                passIcon.innerText = 'visibility';
+            }
+        }
+
+        // Simple mock interaction for the "verify human" box
+        const verifyBox = document.querySelector('.group.cursor-pointer');
+        const checkMark = document.getElementById('checkMark');
+        const boxBorder = document.getElementById('verifyBox');
+        
+        verifyBox.addEventListener('click', () => {
+            checkMark.classList.toggle('hidden');
+            if(!checkMark.classList.contains('hidden')) {
+                boxBorder.classList.add('border-primary');
+            } else {
+                boxBorder.classList.remove('border-primary');
+            }
+        });
+
+        // Form submission effect
+        document.getElementById('loginForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button[type="submit"]');
+            const originalContent = btn.innerHTML;
+            btn.innerHTML = '<div class="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div> Signing in...';
+            btn.disabled = true;
+            
+            setTimeout(() => {
+                btn.innerHTML = originalContent;
+                btn.disabled = false;
+                alert('Sign in attempted! In a real app, this would redirect.');
+            }, 1500);
+        });
+    </script>
+</body></html>

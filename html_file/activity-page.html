@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Activity Feed - MyWorkspace</title>
+<!-- Tailwind CSS v3 CDN -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts: Hanken Grotesk -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              DEFAULT: '#0052cc',
+              dark: '#003d99',
+              light: '#e6efff',
+            },
+            surface: {
+              DEFAULT: '#f7f9fb',
+              dim: '#d8dadc',
+              bright: '#f7f9fb',
+              'container-lowest': '#ffffff',
+              'container-low': '#f2f4f6',
+            },
+            sidebar: '#111827',
+          },
+          fontFamily: {
+            sans: ['Hanken Grotesk', 'sans-serif'],
+          },
+          borderRadius: {
+            'custom': '8px',
+          }
+        }
+      }
+    }
+  </script>
+<style data-purpose="custom-styling">
+    body {
+      font-family: 'Hanken Grotesk', sans-serif;
+      background-color: #f7f9fb;
+    }
+    .sidebar-item-active {
+      background-color: rgba(255, 255, 255, 0.1);
+      border-left: 4px solid #0052cc;
+    }
+    .timeline-line {
+      position: absolute;
+      left: 20px;
+      top: 40px;
+      bottom: -40px;
+      width: 1px;
+      background-color: #e5e7eb;
+      z-index: 0;
+    }
+    .custom-shadow {
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body class="flex h-screen overflow-hidden">
+<!-- BEGIN: Sidebar Navigation -->
+<aside class="w-64 bg-[#0d1626] text-gray-400 flex flex-col flex-shrink-0" data-purpose="main-sidebar">
+<div class="p-6 flex items-center space-x-3">
+<div class="w-10 h-10 bg-brand rounded-lg flex items-center justify-center">
+<img alt="CloudHost Logo" class="rounded" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCkHfAn6gjC3mx-CPjG1976p53yJaVVEnepxi0iL9cXbU_v1RN4pdUUrQgF-2Kh1829mTTCKtIb9zWzwsavpPCDOQnrZF3gbxlWVeq5RFCpKzoGoFkjENFxLW-88U6_rB3rM0Up9T23DhCPwsqCP5eqn1OfTodz66rsfIBDMZspOPqGDQeDo9ae20uxmWJsu-x_o8yXTJk9gOIU1kgeoWWArNCw3C2wpG1jAJwPXytxodZK6ieiaKbYQ9Dxb9ytgsF9n2EiBc4B86o"/>
+</div>
+<div>
+<h1 class="text-white font-bold text-lg leading-tight">MyWorkspace</h1>
+<p class="text-xs text-gray-500 uppercase tracking-wider">Enterprise Portal</p>
+</div>
+</div>
+<nav class="mt-6 flex-1 px-4 space-y-1">
+<a class="flex items-center px-4 py-3 text-sm hover:bg-white/5 rounded-custom transition-colors" href="#">
+<svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+        Dashboard
+      </a>
+<a class="flex items-center px-4 py-3 text-sm hover:bg-white/5 rounded-custom transition-colors" href="#">
+<svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+        Apps
+      </a>
+<a class="flex items-center px-4 py-3 text-sm hover:bg-white/5 rounded-custom transition-colors" href="#">
+<svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+        Drive
+      </a>
+<a class="flex items-center px-4 py-3 text-sm hover:bg-white/5 rounded-custom transition-colors" href="#">
+<svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+        Mail
+      </a>
+<a class="flex items-center px-4 py-3 text-sm hover:bg-white/5 rounded-custom transition-colors" href="#">
+<svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+        Calendar
+      </a>
+<a class="flex items-center px-4 py-3 text-sm hover:bg-white/5 rounded-custom transition-colors" href="#">
+<svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+        Tasks
+      </a>
+<a class="flex items-center px-4 py-3 text-sm text-white bg-brand rounded-custom shadow-lg" href="#">
+<svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+        Activity
+      </a>
+</nav>
+<div class="px-4 py-6 border-t border-white/5">
+<a class="flex items-center px-4 py-3 text-sm hover:bg-white/5 rounded-custom transition-colors" href="#">
+<svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+        Settings
+      </a>
+</div>
+</aside>
+<!-- END: Sidebar Navigation -->
+<!-- BEGIN: Main Content Area -->
+<main class="flex-1 flex flex-col h-full overflow-hidden bg-surface">
+<!-- BEGIN: Top Bar -->
+<header class="h-16 flex items-center justify-between px-8 bg-surface-container-lowest border-b border-gray-200" data-purpose="main-header">
+<div class="w-1/3">
+<div class="relative max-w-md">
+<span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-400">
+<svg class="h-5 w-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</span>
+<input class="block w-full pl-10 pr-3 py-2 border border-gray-200 rounded-custom text-sm focus:outline-none focus:ring-1 focus:ring-brand focus:border-brand" placeholder="Search anything..." type="text"/>
+</div>
+</div>
+<div class="flex items-center space-x-6">
+<button class="relative text-gray-500 hover:text-gray-700">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+<span class="absolute top-0 right-0 h-2 w-2 bg-red-500 rounded-full border-2 border-white"></span>
+</button>
+<button class="text-gray-500 hover:text-gray-700">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</button>
+<div class="flex items-center space-x-3 cursor-pointer">
+<div class="w-8 h-8 rounded-full bg-brand flex items-center justify-center text-white text-xs font-bold">A</div>
+<div class="hidden md:block">
+<p class="text-sm font-semibold text-gray-900 leading-none">Admin</p>
+<p class="text-[10px] text-gray-500 mt-1">Administrator</p>
+</div>
+</div>
+</div>
+</header>
+<!-- END: Top Bar -->
+<!-- BEGIN: Activity Content -->
+<div class="flex-1 overflow-y-auto p-8" data-purpose="scrollable-content">
+<div class="max-w-6xl mx-auto flex gap-8">
+<!-- Left Section: Activity Feed -->
+<div class="flex-1">
+<!-- Feed Header & Filters -->
+<div class="mb-8 flex justify-between items-end">
+<div>
+<h2 class="text-2xl font-bold text-gray-900">Activity Feed</h2>
+<p class="text-gray-500 text-sm mt-1">Real-time updates across your workspace</p>
+</div>
+<div class="flex bg-gray-200 p-1 rounded-custom text-xs font-medium">
+<button class="px-4 py-1.5 rounded-custom bg-brand text-white">All Activity</button>
+<button class="px-4 py-1.5 rounded-custom text-gray-600 hover:bg-gray-300">Mail</button>
+<button class="px-4 py-1.5 rounded-custom text-gray-600 hover:bg-gray-300">Files</button>
+<button class="px-4 py-1.5 rounded-custom text-gray-600 hover:bg-gray-300">Tasks</button>
+</div>
+</div>
+<!-- Activity Timeline Container -->
+<div class="bg-surface-container-lowest rounded-xl border border-gray-100 p-8 shadow-sm">
+<div class="space-y-12 relative">
+<!-- Feed Item 1 -->
+<div class="relative pl-12">
+<div class="timeline-line"></div>
+<div class="absolute left-0 top-0 w-10 h-10 bg-brand-light rounded-custom flex items-center justify-center z-10">
+<svg class="w-5 h-5 text-brand" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</div>
+<div class="bg-gray-50 border border-gray-100 rounded-custom p-5">
+<div class="flex justify-between items-start mb-4">
+<div class="flex items-center space-x-3">
+<img alt="Sarah Jenkins" class="w-8 h-8 rounded-full border border-white" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCPWWza-nxg16eSF_fNEyIOSd5tMYDFWz08fm8OXX4013CCcYsSW5NEKVGf5bYjhCoXT2cLsfMcQ94q45sI5NYr6E6nkcxnbGzXpJT1w1iDxQtLbYhBEUKuARYShbqQNSFbUdE0Mj5NHKM1NseZXi_CeV45KqcCrQ0fO687ZRMNO1pjOG72yDcQFg7rQq8Vm9z_uyKDEwvhnkmO_OdHGqLZo3qWoL_uIOlrtdrbbg-vSjv_HaHSqbZPp1XtLfjeDe6wkIcONR_AbSA"/>
+<p class="text-sm"><span class="font-semibold text-gray-900">Sarah Jenkins</span> <span class="text-gray-600">shared a file in Drive</span></p>
+</div>
+<span class="text-xs text-gray-400">Just now</span>
+</div>
+<!-- File Attachment -->
+<div class="flex items-center p-3 bg-brand-light/20 border border-brand/10 rounded-custom">
+<div class="p-2 bg-brand/10 rounded mr-3 text-brand">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</div>
+<div>
+<h4 class="text-sm font-semibold text-gray-900">Q3_Marketing_Strategy.pdf</h4>
+<p class="text-[10px] text-gray-500 uppercase font-medium">2.4 MB • Shared with Marketing Team</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Feed Item 2 -->
+<div class="relative pl-12">
+<div class="timeline-line"></div>
+<div class="absolute left-0 top-0 w-10 h-10 bg-orange-100 rounded-custom flex items-center justify-center z-10">
+<svg class="w-5 h-5 text-orange-600" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</div>
+<div class="bg-gray-50 border border-gray-100 rounded-custom p-5">
+<div class="flex justify-between items-start mb-3">
+<div class="flex items-center space-x-3">
+<img alt="Marcus Chen" class="w-8 h-8 rounded-full border border-white" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDB88jVrOHRFEhimBroI1lwPNrYJ7dE_y7nAgXpB4Twi7uvdznhnWxa2jcfBeUS4UaX5_7lmAdA8xX4HKcwkMHHKnk5LWSODEl8a4IqbvPRrUnSh-CbJ1UosecYnH3w3pq-MHoUC63N9YI2pFJyEp4EZ-lDHevxO0lLXkqTVoQhVgFWs5AMMXML7mjhdRdSnGHdnjlHOmX8kfAn0GJiM2NcRdo2m5lELTNFSvI2qCR2D5He39r-DzeiZCnVJPTjI0sTdYOX2FqKFdc"/>
+<p class="text-sm"><span class="font-semibold text-gray-900">Marcus Chen</span> <span class="text-gray-600">scheduled a new meeting</span></p>
+</div>
+<span class="text-xs text-gray-400">10 mins ago</span>
+</div>
+<div class="flex items-center text-sm text-gray-600 mb-4">
+<svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+                    Today, 2:00 PM - 3:00 PM • Design Sync
+                  </div>
+<div class="flex space-x-3">
+<button class="px-5 py-1.5 text-xs font-semibold bg-white border border-gray-200 rounded-custom hover:bg-gray-50 transition-colors">Accept</button>
+<button class="px-5 py-1.5 text-xs font-semibold text-gray-500 hover:text-gray-700 transition-colors">Decline</button>
+</div>
+</div>
+</div>
+<!-- Feed Item 3 -->
+<div class="relative pl-12">
+<div class="absolute left-0 top-0 w-10 h-10 bg-brand-light rounded-custom flex items-center justify-center z-10">
+<svg class="w-5 h-5 text-brand" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</div>
+<div class="bg-gray-50 border border-gray-100 rounded-custom p-5">
+<div class="flex justify-between items-start mb-4">
+<div class="flex items-center space-x-3">
+<div class="w-8 h-8 rounded-full bg-brand/20 flex items-center justify-center text-brand text-[10px] font-bold border border-white">AM</div>
+<p class="text-sm"><span class="font-semibold text-gray-900">Alex Morgan</span> <span class="text-gray-600">updated the Project Alpha brief</span></p>
+</div>
+<span class="text-xs text-gray-400">1 hour ago</span>
+</div>
+<!-- File Attachment -->
+<div class="flex items-center p-3 bg-brand-light/20 border border-brand/10 rounded-custom">
+<div class="p-2 bg-brand/10 rounded mr-3 text-brand">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</div>
+<div>
+<h4 class="text-sm font-semibold text-gray-900">Project_Alpha_Brief_v2.docx</h4>
+<p class="text-[10px] text-gray-500 uppercase font-medium">1.2 MB • Updated version</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-12 flex justify-center">
+<button class="px-8 py-2 text-sm font-semibold text-gray-700 border border-gray-300 rounded-full hover:bg-gray-50 transition-all">
+                Load More Activity
+              </button>
+</div>
+</div>
+</div>
+<!-- Right Section: Widgets -->
+<div class="w-80 flex flex-col space-y-6">
+<!-- Workspace Statistics Widget -->
+<div class="bg-surface-container-lowest p-6 rounded-xl border border-gray-100 shadow-sm" data-purpose="stats-widget">
+<div class="flex items-center mb-6">
+<svg class="w-5 h-5 text-brand mr-2" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+<h3 class="font-bold text-gray-900 text-sm">Workspace Statistics</h3>
+</div>
+<div class="space-y-6">
+<div>
+<div class="flex justify-between items-center mb-2">
+<span class="text-xs text-gray-500 font-medium">Active Users</span>
+<div class="text-right">
+<span class="text-sm font-bold text-gray-900">1,245</span>
+<span class="text-[10px] text-red-500 ml-1">↓ 2%</span>
+</div>
+</div>
+<div class="w-full bg-gray-100 h-1.5 rounded-full overflow-hidden">
+<div class="bg-brand h-full" style="width: 75%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between items-center mb-2">
+<span class="text-xs text-gray-500 font-medium">Storage Used</span>
+<div class="text-right">
+<span class="text-sm font-bold text-gray-900">4.2 TB <span class="text-gray-400 font-normal">/ 5 TB</span></span>
+</div>
+</div>
+<div class="w-full bg-gray-100 h-1.5 rounded-full overflow-hidden">
+<div class="bg-orange-500 h-full" style="width: 84%"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Team Spotlight Widget -->
+<div class="bg-surface-container-lowest p-6 rounded-xl border border-gray-100 shadow-sm" data-purpose="spotlight-widget">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-bold text-gray-900 text-sm">Team Spotlight</h3>
+<a class="text-[10px] font-bold text-brand hover:underline uppercase tracking-tight" href="#">View All</a>
+</div>
+<div class="space-y-5">
+<!-- Spotlight Item 1 -->
+<div class="flex items-start space-x-3">
+<img alt="David L." class="w-8 h-8 rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCk7q-Fu9fc35DaQDttjiFIocE3rREAqB9ASGvA23boBT32gGY7bw1_x-rjV740fMcPFZn5B8xmVJYjkRb-CzWHOUGu-ub2QIfq_CSOVp4SVLgo17YybAFLgnlA42_LGTJJjJ-AdzZWmgYNK7376SMag0UEp1ddwScptfTna2bGYKc-5hJNw6xbR-VgkOtFLaXaJ9c6J89yZkkBkojSdqkST-00Gt7XuP2_mmh7KLpG_efDQnaN_dP_16OXHrp_FLq-YKmGyCpHGzI"/>
+<div class="flex-1">
+<p class="text-xs font-bold text-gray-900 leading-tight">David L. created a new project</p>
+<p class="text-[10px] text-gray-500 mt-0.5">Project Alpha • 3h ago</p>
+</div>
+</div>
+<!-- Spotlight Item 2 -->
+<div class="flex items-start space-x-3">
+<img alt="Emma W." class="w-8 h-8 rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAUurbIdL2eom3LtLNh3KxX-mNdaaML17dbwrVrGCkJzIIP7g_Edj1YmAR53pGFWNskHrVgA8EUQZZ3U_Siody722VpltZbJ10Udi-QRtD1_uuSYIGNTRhAzjLNTPfJTpwsN77X2mtp1aRMCPQeZtRdeZaAt0pWeRhpteiwppDv8xpguPFCQcxscZrzpEpFFR5Qd4tViu0wQhRcF0WkpDwXbw6O0-kbzGBUz_z8dLc5oXKrjqmEiQ3dJ3BL1oS4pTCoK9SkH1-S6F8"/>
+<div class="flex-1">
+<p class="text-xs font-bold text-gray-900 leading-tight">Emma W. completed onboarding</p>
+<p class="text-[10px] text-gray-500 mt-0.5">HR Portal • 5h ago</p>
+</div>
+</div>
+<!-- Spotlight Item 3 -->
+<div class="flex items-start space-x-3">
+<div class="w-8 h-8 rounded-full bg-brand/10 flex items-center justify-center text-brand text-[10px] font-bold">MJ</div>
+<div class="flex-1">
+<p class="text-xs font-bold text-gray-900 leading-tight">Michael J. left a comment</p>
+<p class="text-[10px] text-gray-500 mt-0.5">Design Specs • Yesterday</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- END: Activity Content -->
+</main>
+<!-- END: Main Content Area -->
+</body></html>

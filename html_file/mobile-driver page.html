@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Proton Drive - MyWorkspace</title>
+<!-- Google Font: Hanken Grotesk -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS CDN -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: '#0052cc',
+            surface: '#f7f9fb',
+            'surface-dim': '#d8dadc',
+            'surface-container': '#ffffff',
+          },
+          fontFamily: {
+            sans: ['Hanken Grotesk', 'sans-serif'],
+          },
+          borderRadius: {
+            'custom': '8px',
+          }
+        }
+      }
+    }
+  </script>
+<style data-purpose="custom-layout">
+    body {
+      background-color: #f7f9fb;
+      -webkit-tap-highlight-color: transparent;
+    }
+    /* Hide scrollbar for the horizontal folders scroll */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+</head>
+<body class="font-sans text-slate-900 min-h-screen">
+<!-- BEGIN: MainHeader -->
+<header class="sticky top-0 z-50 bg-white border-b border-gray-100 px-4 py-3 flex items-center justify-between shadow-sm">
+<div class="flex items-center gap-4">
+<!-- Hamburger Menu Icon -->
+<button class="p-1 text-slate-600" data-purpose="menu-toggle">
+<svg fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><line x1="4" x2="20" y1="12" y2="12"></line><line x1="4" x2="20" y1="6" y2="6"></line><line x1="4" x2="20" y1="18" y2="18"></line></svg>
+</button>
+<h1 class="text-xl font-semibold tracking-tight text-slate-800">Drive</h1>
+</div>
+<div class="flex items-center gap-3">
+<!-- Search Icon -->
+<button class="p-1 text-slate-600" data-purpose="search-button">
+<svg fill="none" height="22" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="22" xmlns="http://www.w3.org/2000/svg"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
+</button>
+<!-- Action Plus Button -->
+<button class="bg-brand text-white w-10 h-10 rounded-full flex items-center justify-center shadow-md active:scale-95 transition-transform" data-purpose="add-button">
+<svg fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M12 5v14M5 12h14"></path></svg>
+</button>
+</div>
+</header>
+<!-- END: MainHeader -->
+<main class="py-6">
+<!-- BEGIN: FoldersSection -->
+<section class="mb-8" data-purpose="folders-carousel">
+<h2 class="px-5 mb-4 text-sm font-bold uppercase tracking-wider text-slate-500">Folders</h2>
+<div class="flex overflow-x-auto gap-4 px-5 no-scrollbar">
+<!-- Folder Card: Design Assets -->
+<div class="min-w-[160px] bg-white p-4 rounded-custom border border-gray-100 shadow-sm relative">
+<div class="flex justify-between items-start mb-6">
+<div class="bg-blue-50 p-2 rounded-custom">
+<svg class="text-brand opacity-80" fill="#0052cc" height="24" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"></path></svg>
+</div>
+<button class="text-slate-400"><svg fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg></button>
+</div>
+<h3 class="font-semibold text-slate-800 text-[15px]">Design Assets</h3>
+<p class="text-xs text-slate-500 mt-1">124 items</p>
+</div>
+<!-- Folder Card: Marketing '24 -->
+<div class="min-w-[160px] bg-white p-4 rounded-custom border border-gray-100 shadow-sm relative">
+<div class="flex justify-between items-start mb-6">
+<div class="bg-blue-50 p-2 rounded-custom">
+<svg class="text-brand opacity-80" fill="#0052cc" height="24" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"></path></svg>
+</div>
+<button class="text-slate-400"><svg fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg></button>
+</div>
+<h3 class="font-semibold text-slate-800 text-[15px]">Marketing '24</h3>
+<p class="text-xs text-slate-500 mt-1">45 items</p>
+</div>
+<!-- Folder Card: Invoices (Partial) -->
+<div class="min-w-[160px] bg-white p-4 rounded-custom border border-gray-100 shadow-sm relative">
+<div class="flex justify-between items-start mb-6">
+<div class="bg-blue-50 p-2 rounded-custom">
+<svg class="text-brand opacity-80" fill="#0052cc" height="24" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"></path></svg>
+</div>
+<button class="text-slate-400"><svg fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg></button>
+</div>
+<h3 class="font-semibold text-slate-800 text-[15px]">Invoices</h3>
+<p class="text-xs text-slate-500 mt-1">8 items</p>
+</div>
+</div>
+</section>
+<!-- END: FoldersSection -->
+<!-- BEGIN: RecentFilesSection -->
+<section class="px-5" data-purpose="recent-files-list">
+<h2 class="mb-4 text-sm font-bold uppercase tracking-wider text-slate-500">Recent Files</h2>
+<div class="flex flex-col gap-3">
+<!-- File Item: PDF -->
+<div class="flex items-center justify-between p-3 bg-white border border-gray-100 rounded-custom shadow-sm">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 flex items-center justify-center bg-red-50 rounded-custom">
+<svg fill="none" height="24" stroke="#ef4444" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><path d="M9 15h3a1.5 1.5 0 0 0 0-3H9v6"></path><path d="M12 12v3"></path></svg>
+</div>
+<div>
+<h4 class="text-[14px] font-semibold text-slate-800">Q3_Financial_Report_Final.pdf</h4>
+<p class="text-[12px] text-slate-500">Modified 2 hrs ago • 2.4 MB</p>
+</div>
+</div>
+<button class="text-slate-400 p-2"><svg fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg></button>
+</div>
+<!-- File Item: Image -->
+<div class="flex items-center justify-between p-3 bg-white border border-gray-100 rounded-custom shadow-sm">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 flex items-center justify-center bg-blue-50 rounded-custom">
+<svg fill="none" height="24" stroke="#0052cc" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><rect height="18" rx="2" ry="2" width="18" x="3" y="3"></rect><circle cx="9" cy="9" r="2"></circle><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"></path></svg>
+</div>
+<div>
+<h4 class="text-[14px] font-semibold text-slate-800">Hero_Banner_v2.png</h4>
+<p class="text-[12px] text-slate-500">Modified yesterday • 4.1 MB</p>
+</div>
+</div>
+<button class="text-slate-400 p-2"><svg fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg></button>
+</div>
+<!-- File Item: Document -->
+<div class="flex items-center justify-between p-3 bg-white border border-gray-100 rounded-custom shadow-sm">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 flex items-center justify-center bg-indigo-50 rounded-custom">
+<svg fill="none" height="24" stroke="#6366f1" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" x2="8" y1="13" y2="13"></line><line x1="16" x2="8" y1="17" y2="17"></line><line x1="10" x2="8" y1="9" y2="9"></line></svg>
+</div>
+<div>
+<h4 class="text-[14px] font-semibold text-slate-800">Project_Kickoff_Notes.docx</h4>
+<p class="text-[12px] text-slate-500">Modified Oct 12 • 156 KB</p>
+</div>
+</div>
+<button class="text-slate-400 p-2"><svg fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg></button>
+</div>
+<!-- File Item: Spreadsheet -->
+<div class="flex items-center justify-between p-3 bg-white border border-gray-100 rounded-custom shadow-sm">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 flex items-center justify-center bg-emerald-50 rounded-custom">
+<svg fill="none" height="24" stroke="#10b981" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><rect height="18" rx="2" ry="2" width="18" x="3" y="3"></rect><line x1="3" x2="21" y1="9" y2="9"></line><line x1="3" x2="21" y1="15" y2="15"></line><line x1="9" x2="9" y1="3" y2="21"></line><line x1="15" x2="15" y1="3" y2="21"></line></svg>
+</div>
+<div>
+<h4 class="text-[14px] font-semibold text-slate-800">Q4_Budget_Estimates.xlsx</h4>
+<p class="text-[12px] text-slate-500">Modified Oct 10 • 890 KB</p>
+</div>
+</div>
+<button class="text-slate-400 p-2"><svg fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg></button>
+</div>
+</div>
+</section>
+<!-- END: RecentFilesSection -->
+</main>
+<!-- BEGIN: BottomNavigationSpace -->
+<!-- Spacer to prevent content from being hidden by OS gestures if applicable -->
+<div class="h-8"></div>
+<!-- END: BottomNavigationSpace -->
+</body></html>

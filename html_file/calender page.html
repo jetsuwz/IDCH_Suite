@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MyWorkspace - Calendar</title>
+<!-- Tailwind CSS CDN with plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts: Hanken Grotesk -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Hanken Grotesk', 'sans-serif'],
+          },
+          colors: {
+            'workspace-dark': '#101828',
+            'workspace-blue': '#004EEB',
+            'workspace-bg': '#F9FAFB',
+            'calendar-border': '#EAECF0',
+          },
+          borderRadius: {
+            'card': '8px',
+          }
+        }
+      }
+    }
+  </script>
+<style data-purpose="custom-layout">
+    body {
+      background-color: #F9FAFB;
+    }
+    .sidebar-active {
+      background: linear-gradient(90deg, rgba(0, 78, 235, 0.1) 0%, rgba(0, 78, 235, 0) 100%);
+      border-left: 4px solid #004EEB;
+      color: #FFFFFF;
+    }
+    .scrollbar-hide::-webkit-scrollbar {
+      display: none;
+    }
+    /* Specific styling for the calendar grid to ensure perfect alignment */
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      grid-auto-rows: minmax(100px, 1fr);
+    }
+  </style>
+</head>
+<body class="font-sans text-slate-900 antialiased overflow-hidden h-screen flex">
+<!-- BEGIN: LeftSidebar -->
+<aside class="w-64 bg-workspace-dark text-slate-400 flex flex-col h-full shrink-0" data-purpose="navigation-sidebar">
+<div class="p-6 flex items-center space-x-3">
+<div class="w-10 h-10 bg-workspace-blue rounded-lg flex items-center justify-center">
+<img alt="Logo Placeholder" class="w-6 h-6 object-contain hidden" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBqf9o1hq0A7qUE8ESM7e4vkjqmD4Ui9pvSs2urobTJz6Ejt2_GFeDMhb9iRCMGdRcefxVoPzxckWNka_KisNZ-Mv77Sj9trHPBk7m7GKmerIY-sniGQ0vRXtglZaM5fJ3mAnX48yNu-WWLvSeIvwdQIlHB5GVDsQVfgp4zBR-ciMA92fvqryWe42VExOR9HGZi54PMGPrPSB0kf_IZ2lX7IOK4mpj9V7J-_0J97aZZCY96sbNlDxpy73cvdox2y41SBIgzCNnsQXY"/>
+<span class="text-white font-bold text-xl">id</span>
+</div>
+<div>
+<h1 class="text-white font-bold text-lg leading-tight">MyWorkspace</h1>
+<p class="text-xs text-slate-500">Enterprise Portal</p>
+</div>
+</div>
+<nav class="mt-8 flex-1">
+<ul class="space-y-1">
+<li>
+<a class="flex items-center px-6 py-3 hover:text-white transition-colors" href="#">
+<svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+            Dashboard
+          </a>
+</li>
+<li>
+<a class="flex items-center px-6 py-3 hover:text-white transition-colors" href="#">
+<svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+            Apps
+          </a>
+</li>
+<li>
+<a class="flex items-center px-6 py-3 hover:text-white transition-colors" href="#">
+<svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+            Drive
+          </a>
+</li>
+<li>
+<a class="flex items-center px-6 py-3 hover:text-white transition-colors" href="#">
+<svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+            Mail
+          </a>
+</li>
+<li>
+<a class="sidebar-active flex items-center px-6 py-3 text-white" href="#">
+<svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+            Calendar
+          </a>
+</li>
+<li>
+<a class="flex items-center px-6 py-3 hover:text-white transition-colors" href="#">
+<svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+            Tasks
+          </a>
+</li>
+<li>
+<a class="flex items-center px-6 py-3 hover:text-white transition-colors" href="#">
+<svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+            Activity
+          </a>
+</li>
+</ul>
+</nav>
+<div class="p-6 border-t border-slate-800">
+<a class="flex items-center px-0 py-3 hover:text-white transition-colors" href="#">
+<svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+        Settings
+      </a>
+</div>
+</aside>
+<!-- END: LeftSidebar -->
+<div class="flex-1 flex flex-col min-w-0 overflow-hidden">
+<!-- BEGIN: TopBar -->
+<header class="h-16 bg-white border-b border-calendar-border flex items-center justify-between px-8 shrink-0" data-purpose="top-navigation">
+<div class="relative w-96">
+<span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<svg class="h-5 w-5 text-slate-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</span>
+<input class="block w-full pl-10 pr-3 py-2 border-none bg-slate-100 rounded-full text-sm focus:ring-2 focus:ring-workspace-blue" placeholder="Search events, meetings, tasks..." type="text"/>
+</div>
+<div class="flex items-center space-x-4">
+<button class="p-2 text-slate-500 hover:bg-slate-100 rounded-full relative">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+<span class="absolute top-2 right-2.5 w-2 h-2 bg-red-500 border-2 border-white rounded-full"></span>
+</button>
+<button class="p-2 text-slate-500 hover:bg-slate-100 rounded-full">
+<svg class="w-6 h-6" fill="currentColor" viewbox="0 0 24 24"><path d="M4 4h4v4H4V4zm6 0h4v4h-4V4zm6 0h4v4h-4V4zM4 10h4v4H4v-4zm6 0h4v4h-4v-4zm6 0h4v4h-4v-4zM4 16h4v4H4v-4zm6 0h4v4h-4v-4zm6 0h4v4h-4v-4z"></path></svg>
+</button>
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-calendar-border cursor-pointer">
+<img alt="User Avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC5_bfsdCfKR4YwNBXcWcEor7qTQ8POfg5zfvcvMdJ7my8kikQvejYMKhs9G6E6kUNuSXvTFy3i1tQWhU_hsbaoKem__fMhLVBOUSLxX6AJDxrGVI3tn14AR2OS198U0AjVcQypp13uhrt6u7lwmwxWZpC2DhP4fE8wZmeXbbFvi-MJXif8jK5dwAAbMky8iS9BpbQOBle8froOWnKVxVZU2Dbat6gBIflFm4IEu7gif8weFJ68Uq85ECFp7OVuQdfMEhftbdZgngc"/>
+</div>
+</div>
+</header>
+<!-- END: TopBar -->
+<!-- BEGIN: ContentArea -->
+<main class="flex-1 flex overflow-hidden p-6 gap-6" data-purpose="calendar-dashboard">
+<!-- BEGIN: LeftControlPanel -->
+<section class="w-64 flex flex-col gap-6 shrink-0" data-purpose="calendar-sidebar-controls">
+<!-- Create Event Button -->
+<button class="w-full bg-workspace-blue text-white py-4 px-6 rounded-card font-semibold flex items-center justify-center space-x-2 shadow-lg shadow-blue-500/20 hover:bg-blue-700 transition-colors">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M12 4v16m8-8H4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+<span>Create Event</span>
+</button>
+<!-- Mini Calendar Picker -->
+<div class="bg-white p-4 rounded-card border border-calendar-border shadow-sm">
+<div class="flex items-center justify-between mb-4 px-1">
+<h3 class="font-bold text-slate-800">October 2023</h3>
+<div class="flex space-x-2">
+<button class="p-1 hover:bg-slate-100 rounded"><svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M15 19l-7-7 7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg></button>
+<button class="p-1 hover:bg-slate-100 rounded"><svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg></button>
+</div>
+</div>
+<div class="grid grid-cols-7 text-center text-xs mb-2 text-slate-400 font-medium">
+<span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span>
+</div>
+<div class="grid grid-cols-7 text-center text-xs gap-y-2">
+<!-- Simplified mini calendar grid -->
+<span class="text-slate-300">26</span><span class="text-slate-300">27</span><span class="text-slate-300">28</span><span class="text-slate-300">29</span><span class="text-slate-300">30</span><span>1</span><span>2</span>
+<span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span>
+<span>10</span><span>11</span><span class="bg-workspace-blue text-white rounded-full flex items-center justify-center w-6 h-6 mx-auto">12</span><span>13</span><span>14</span><span>15</span><span>16</span>
+<span>17</span><span>18</span><span>19</span><span>20</span><span>21</span><span>22</span><span>23</span>
+<span>24</span><span>25</span><span>26</span>
+</div>
+</div>
+<!-- My Calendars Filter -->
+<div class="flex-1 flex flex-col">
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-xs font-bold text-slate-500 uppercase tracking-wider">My Calendars</h3>
+<button class="text-slate-400 hover:text-slate-600"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg></button>
+</div>
+<div class="space-y-4">
+<label class="flex items-center group cursor-pointer">
+<input checked="" class="rounded border-slate-300 text-workspace-blue focus:ring-workspace-blue w-5 h-5" type="checkbox"/>
+<span class="ml-3 text-sm text-slate-700 font-medium flex-1">Personal</span>
+<span class="w-2.5 h-2.5 rounded-full bg-blue-500"></span>
+</label>
+<label class="flex items-center group cursor-pointer">
+<input checked="" class="rounded border-slate-300 text-green-500 focus:ring-green-500 w-5 h-5" type="checkbox"/>
+<span class="ml-3 text-sm text-slate-700 font-medium flex-1">Team Projects</span>
+<span class="w-2.5 h-2.5 rounded-full bg-green-500"></span>
+</label>
+<label class="flex items-center group cursor-pointer">
+<input checked="" class="rounded border-slate-300 text-purple-500 focus:ring-purple-500 w-5 h-5" type="checkbox"/>
+<span class="ml-3 text-sm text-slate-700 font-medium flex-1">External Meetings</span>
+<span class="w-2.5 h-2.5 rounded-full bg-purple-500"></span>
+</label>
+<label class="flex items-center group cursor-pointer">
+<input class="rounded border-slate-300 text-orange-500 focus:ring-orange-500 w-5 h-5" type="checkbox"/>
+<span class="ml-3 text-sm text-slate-700 font-medium flex-1">Holidays</span>
+<span class="w-2.5 h-2.5 rounded-full bg-orange-500"></span>
+</label>
+</div>
+</div>
+</section>
+<!-- END: LeftControlPanel -->
+<!-- BEGIN: CalendarGridArea -->
+<section class="flex-1 bg-white rounded-card border border-calendar-border shadow-sm flex flex-col overflow-hidden" data-purpose="main-calendar-view">
+<!-- Calendar Header -->
+<div class="p-6 border-b border-calendar-border flex items-center justify-between">
+<div class="flex items-center space-x-6">
+<button class="px-4 py-1.5 border border-calendar-border rounded-lg text-sm font-semibold hover:bg-slate-50">Today</button>
+<div class="flex items-center space-x-2">
+<button class="p-1 hover:bg-slate-100 rounded"><svg class="w-5 h-5 text-slate-600" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M15 19l-7-7 7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg></button>
+<button class="p-1 hover:bg-slate-100 rounded"><svg class="w-5 h-5 text-slate-600" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg></button>
+</div>
+<h2 class="text-2xl font-bold text-slate-800">October 2023</h2>
+</div>
+<div class="flex bg-slate-100 p-1 rounded-lg">
+<button class="px-4 py-1 text-sm font-medium text-slate-600">Day</button>
+<button class="px-4 py-1 text-sm font-medium text-slate-600">Week</button>
+<button class="px-4 py-1 text-sm font-medium text-workspace-blue bg-white rounded-md shadow-sm">Month</button>
+</div>
+</div>
+<!-- Grid Headers -->
+<div class="grid grid-cols-7 border-b border-calendar-border">
+<div class="py-3 text-center text-xs font-bold text-slate-400 uppercase">Sun</div>
+<div class="py-3 text-center text-xs font-bold text-slate-400 uppercase">Mon</div>
+<div class="py-3 text-center text-xs font-bold text-slate-400 uppercase">Tue</div>
+<div class="py-3 text-center text-xs font-bold text-slate-400 uppercase">Wed</div>
+<div class="py-3 text-center text-xs font-bold text-slate-400 uppercase">Thu</div>
+<div class="py-3 text-center text-xs font-bold text-slate-400 uppercase">Fri</div>
+<div class="py-3 text-center text-xs font-bold text-slate-400 uppercase">Sat</div>
+</div>
+<!-- Calendar Days -->
+<div class="flex-1 calendar-grid divide-x divide-y divide-calendar-border overflow-y-auto scrollbar-hide">
+<!-- Row 1 -->
+<div class="p-2 bg-slate-50/50 text-slate-400">26</div>
+<div class="p-2 bg-slate-50/50 text-slate-400">27</div>
+<div class="p-2 bg-slate-50/50 text-slate-400">28</div>
+<div class="p-2 bg-slate-50/50 text-slate-400">29</div>
+<div class="p-2 bg-slate-50/50 text-slate-400">30</div>
+<div class="p-2 font-medium">1</div>
+<div class="p-2 font-medium">2</div>
+<!-- Row 2 -->
+<div class="p-2 font-medium">3</div>
+<div class="p-2 font-medium">
+<span>4</span>
+<div class="mt-2 p-1.5 bg-blue-100 text-blue-700 text-[10px] font-bold rounded flex items-center border-l-4 border-blue-500">
+              Product Review
+            </div>
+</div>
+<div class="p-2 font-medium">5</div>
+<div class="p-2 font-medium">6</div>
+<div class="p-2 font-medium">
+<span>7</span>
+<div class="mt-2 p-1.5 bg-purple-100 text-purple-700 text-[10px] font-bold rounded flex items-center border-l-4 border-purple-500">
+              Design Sync
+            </div>
+</div>
+<div class="p-2 font-medium">8</div>
+<div class="p-2 font-medium">9</div>
+<!-- Row 3 -->
+<div class="p-2 font-medium">10</div>
+<div class="p-2 font-medium">11</div>
+<div class="p-2 font-medium bg-blue-50/30">
+<span class="bg-workspace-blue text-white w-6 h-6 flex items-center justify-center rounded-full">12</span>
+<div class="mt-2 space-y-1">
+<div class="p-1.5 bg-green-100 text-green-700 text-[10px] font-bold rounded flex items-center border-l-4 border-green-500">
+                Board Mtg
+              </div>
+<div class="p-1.5 bg-blue-100 text-blue-700 text-[10px] font-bold rounded flex items-center border-l-4 border-blue-500">
+                Sprint Planning
+              </div>
+</div>
+</div>
+<div class="p-2 font-medium">13</div>
+<div class="p-2 font-medium">14</div>
+<div class="p-2 font-medium">
+<span>15</span>
+<div class="mt-2 p-1.5 bg-orange-100 text-orange-700 text-[10px] font-bold rounded flex items-center border-l-4 border-orange-500">
+              User Testing
+            </div>
+</div>
+<div class="p-2 font-medium">16</div>
+<!-- Row 4 -->
+<div class="p-2 font-medium">17</div>
+<div class="p-2 font-medium">18</div>
+<div class="p-2 font-medium">19</div>
+<div class="p-2 font-medium">20</div>
+<div class="p-2 font-medium">21</div>
+<div class="p-2 font-medium">22</div>
+<div class="p-2 font-medium">23</div>
+</div>
+</section>
+<!-- END: CalendarGridArea -->
+<!-- BEGIN: AgendaSidebar -->
+<section class="w-80 bg-white rounded-card border border-calendar-border shadow-sm p-6 flex flex-col shrink-0" data-purpose="today-agenda">
+<div class="flex items-center justify-between mb-8">
+<h2 class="text-xl font-bold text-slate-800">Today's Agenda</h2>
+<span class="text-sm font-semibold text-workspace-blue">4 Tasks</span>
+</div>
+<div class="space-y-6">
+<!-- Agenda Item 1 -->
+<div class="flex space-x-4">
+<div class="w-12 text-xs font-bold text-slate-400 pt-1">09:00</div>
+<div class="flex-1 bg-slate-50 rounded-lg p-4 border-l-4 border-blue-500 shadow-sm">
+<h4 class="font-bold text-slate-800 text-sm">Sprint Planning</h4>
+<p class="text-xs text-slate-500 mt-1">Engineering Room A</p>
+</div>
+</div>
+<!-- Agenda Item 2 -->
+<div class="flex space-x-4">
+<div class="w-12 text-xs font-bold text-slate-400 pt-1">11:30</div>
+<div class="flex-1 bg-slate-50 rounded-lg p-4 border-l-4 border-green-500 shadow-sm">
+<h4 class="font-bold text-slate-800 text-sm">Board Monthly Sync</h4>
+<p class="text-xs text-slate-500 mt-1">Remote • Zoom</p>
+</div>
+</div>
+<!-- Agenda Item 3 -->
+<div class="flex space-x-4">
+<div class="w-12 text-xs font-bold text-slate-400 pt-1">14:00</div>
+<div class="flex-1 bg-slate-50 rounded-lg p-4 border-l-4 border-blue-500 shadow-sm">
+<h4 class="font-bold text-slate-800 text-sm">Coffee with Sarah</h4>
+<p class="text-xs text-slate-500 mt-1">Lobby Lounge</p>
+</div>
+</div>
+</div>
+<!-- Scrollable content placeholder for more items -->
+<div class="mt-8 flex-1 border-t border-dashed border-calendar-border flex items-center justify-center">
+<p class="text-xs text-slate-400 italic">No more events for today</p>
+</div>
+</section>
+<!-- END: AgendaSidebar -->
+</main>
+<!-- END: ContentArea -->
+</div>
+</body></html>

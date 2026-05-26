@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Proton Workspace - Tasks</title>
+<!-- Tailwind CSS v3 with plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts: Hanken Grotesk -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#0052cc',
+            surface: '#f7f9fb',
+            'surface-bright': '#f7f9fb',
+            'surface-container-lowest': '#ffffff',
+            'surface-container-low': '#f2f4f6',
+            'coral-alert': '#fee2e2',
+            'coral-text': '#b91c1c',
+          },
+          fontFamily: {
+            sans: ['Hanken Grotesk', 'sans-serif'],
+          },
+          borderRadius: {
+            'custom': '8px',
+          }
+        }
+      }
+    }
+  </script>
+<style data-purpose="custom-styling">
+    body {
+      background-color: #f7f9fb;
+    }
+    /* Custom scrollbar for horizontal pills */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    /* Tab indicator border */
+    .active-tab {
+      border-bottom: 2px solid #0052cc;
+      color: #0052cc;
+    }
+  </style>
+</head>
+<body class="font-sans text-slate-900 min-h-screen pb-20">
+<!-- BEGIN: MainHeader -->
+<header class="bg-white px-4 py-3 flex items-center justify-between sticky top-0 z-50 border-b border-slate-100">
+<div class="flex items-center gap-4">
+<button class="p-1" data-purpose="hamburger-menu">
+<svg class="h-6 w-6" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</button>
+</div>
+<h1 class="text-xl font-bold">Tasks</h1>
+<div class="flex items-center gap-3">
+<button class="p-1" data-purpose="search-button">
+<svg class="h-6 w-6 text-slate-600" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</button>
+<img alt="User Avatar" class="w-8 h-8 rounded-full border border-slate-200" data-purpose="user-avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD79NGUX5LRisc3Bp6FXb3AWGQzQpkTWzmlyHPylsSeGzKALgnp1IqmuyBC6l_gpX_i1gOCHz-1ApETj0iwyIr0mHTEPHZUhuEHFMWNw4dxQScem2GFrsMvVYz69xZRW9bjBVlnCJTRHxa8je-CFPu13kj8o2oYyXX90EoZH0M5Sgd1PgkxzcKPVIe57rvK83MyYqjfFhKOFsXQuTvfDQXlhLZevL2u8VplrCF9Mhgt7Q5pUOyJyxZ4pSW0ZcI6KUPraQz1XC6zDkc"/>
+</div>
+</header>
+<!-- END: MainHeader -->
+<main class="p-4 space-y-6">
+<!-- BEGIN: FilterPills -->
+<section class="flex gap-2 overflow-x-auto no-scrollbar py-2" data-purpose="task-filters">
+<button class="px-5 py-1.5 bg-blue-100 text-primary font-semibold rounded-full text-sm border border-blue-200">All</button>
+<button class="px-5 py-1.5 bg-white text-slate-600 font-medium rounded-full text-sm border border-slate-200">High Priority</button>
+<button class="px-5 py-1.5 bg-white text-slate-600 font-medium rounded-full text-sm border border-slate-200">Due Today</button>
+</section>
+<!-- END: FilterPills -->
+<!-- BEGIN: OverdueAlert -->
+<div class="bg-[#fef2f2] border border-[#fecaca] rounded-custom p-4 flex items-start gap-4 relative" data-purpose="overdue-notification">
+<div class="mt-1">
+<svg class="h-6 w-6 text-[#ef4444]" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<div class="flex-1">
+<h3 class="font-bold text-[#b91c1c] text-lg">1 Task Overdue</h3>
+<p class="text-[#ef4444] text-sm mt-0.5">Q3 Financial Reporting was due yesterday.</p>
+</div>
+<button class="bg-white px-3 py-1 rounded-md text-sm font-semibold text-[#b91c1c] border border-[#fecaca] self-start">View</button>
+</div>
+<!-- END: OverdueAlert -->
+<!-- BEGIN: TodayProgressCard -->
+<section class="bg-white border border-slate-200 rounded-custom p-5 shadow-sm" data-purpose="daily-progress">
+<div class="flex justify-between items-center mb-6">
+<h2 class="text-xl font-bold text-slate-800">My Tasks Today</h2>
+<span class="bg-blue-50 text-primary text-xs font-bold px-3 py-1 rounded-full border border-blue-100">2/5 Done</span>
+</div>
+<div class="space-y-4">
+<!-- Task Item 1 -->
+<div class="flex items-center gap-3">
+<div class="w-6 h-6 bg-primary rounded flex items-center justify-center">
+<svg class="h-4 w-4 text-white" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" fill-rule="evenodd"></path>
+</svg>
+</div>
+<span class="text-slate-500 line-through text-lg">Review design comps</span>
+</div>
+<!-- Task Item 2 -->
+<div class="flex items-center gap-3">
+<div class="w-6 h-6 bg-primary rounded flex items-center justify-center">
+<svg class="h-4 w-4 text-white" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" fill-rule="evenodd"></path>
+</svg>
+</div>
+<span class="text-slate-500 line-through text-lg">Team standup</span>
+</div>
+<!-- Task Item 3 -->
+<div class="flex items-center justify-between p-3 bg-slate-50 border border-slate-100 rounded-lg">
+<div class="flex items-center gap-3">
+<div class="w-6 h-6 border-2 border-slate-300 rounded bg-white"></div>
+<span class="text-slate-800 font-medium text-lg">Finalize Q4 roadmap</span>
+</div>
+<span class="text-[10px] font-bold text-red-600 bg-red-50 px-2 py-0.5 rounded border border-red-100 flex items-center gap-1 uppercase tracking-wider">
+<svg class="h-2.5 w-2.5" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"></path>
+</svg>
+            High
+          </span>
+</div>
+</div>
+</section>
+<!-- END: TodayProgressCard -->
+<!-- BEGIN: TaskStatusTabs -->
+<section data-purpose="task-status-tabs">
+<div class="flex border-b border-slate-200 mb-6">
+<button class="flex-1 py-3 text-sm font-bold active-tab">To Do (4)</button>
+<button class="flex-1 py-3 text-sm font-semibold text-slate-500">In Progress (2)</button>
+<button class="flex-1 py-3 text-sm font-semibold text-slate-500">Done (12)</button>
+</div>
+<!-- Task Card 1 -->
+<div class="bg-white border border-slate-200 rounded-custom p-5 mb-4 shadow-sm relative" data-purpose="task-card">
+<div class="flex justify-between items-start mb-2">
+<span class="bg-blue-50 text-primary text-[11px] font-bold px-3 py-1 rounded border border-blue-100">Engineering</span>
+<button class="text-slate-400">
+<svg class="h-6 w-6" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</button>
+</div>
+<h3 class="text-xl font-bold mb-3">Implement Auth0 Integration</h3>
+<p class="text-slate-500 text-sm leading-relaxed mb-6">
+          Migrate existing user authentication to the new Auth0 tenant and update relevant API endpoints.
+        </p>
+<div class="flex justify-between items-center pt-4 border-t border-slate-100">
+<div class="flex -space-x-2">
+<img alt="Assignee" class="w-7 h-7 rounded-full border-2 border-white bg-slate-100" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDYhXVsv48hKmk0JnU28mqbOMsraYAyTHw-awwS-7kB3dc3lLhERBtjpr6K9jm5Oq9sGByCLgvbVGkoq4TB4W4pfrq2bJoUvGQcTcuoS9AzLPZWyasd3H7dIU_L3yQfTbwEsU9Vi7Ve6-lkfHLHRAKPlMbK5pZbgEIDcK7MQmLxaxddxw9kgCi8xd_Q_ddzwTs-NON42a_E_m7Q4m5yDxQE0OWRGTwPjE6HPHEN_urw-pWDqeX6GlLjKzeSrN1Fom85kAoioZagu60"/>
+</div>
+<div class="flex items-center text-slate-500 text-xs font-semibold gap-1.5">
+<svg class="h-4 w-4" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+            Oct 24
+          </div>
+</div>
+</div>
+<!-- Task Card 2 -->
+<div class="bg-white border border-slate-200 rounded-custom p-5 shadow-sm relative" data-purpose="task-card">
+<div class="flex justify-between items-start mb-2">
+<span class="bg-orange-50 text-orange-700 text-[11px] font-bold px-3 py-1 rounded border border-orange-100">Design</span>
+<button class="text-slate-400">
+<svg class="h-6 w-6" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</button>
+</div>
+<h3 class="text-xl font-bold mb-3">Update Design System Tokens</h3>
+<p class="text-slate-500 text-sm leading-relaxed mb-6">
+          Sync Figma tokens with the latest Tailwind config for the upcoming v2 release.
+        </p>
+</div>
+</section>
+<!-- END: TaskStatusTabs -->
+</main>
+<!-- BEGIN: FloatingActionButton -->
+<button class="fixed bottom-8 right-6 w-14 h-14 bg-primary text-white rounded-full shadow-lg flex items-center justify-center z-50 hover:bg-blue-700 transition-colors" data-purpose="add-task-fab">
+<svg class="h-8 w-8" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M12 4v16m8-8H4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</button>
+<!-- END: FloatingActionButton -->
+</body></html>

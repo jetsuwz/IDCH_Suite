@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>MyWorkspace - Drive</title>
+  <!-- Google Fonts: Hanken Grotesk -->
+  <link href="https://fonts.googleapis.com" rel="preconnect" />
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+  <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600;700&amp;display=swap"
+    rel="stylesheet" />
+  <!-- Tailwind CSS v3 CDN -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              DEFAULT: '#0052cc',
+              dark: '#0e172a',
+              sidebar: '#0f172a',
+              active: '#1e293b',
+            },
+            surface: {
+              DEFAULT: '#f7f9fb',
+              dim: '#d8dadc',
+              container: '#ffffff',
+            }
+          },
+          fontFamily: {
+            sans: ['Hanken Grotesk', 'sans-serif'],
+          },
+          borderRadius: {
+            'custom': '8px',
+          }
+        }
+      }
+    }
+  </script>
+  <style data-purpose="custom-scrollbar">
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+  </style>
+</head>
+
+<body class="font-sans bg-surface text-slate-700 antialiased overflow-hidden h-screen flex">
+  <!-- BEGIN: MainSidebar -->
+  <aside class="w-72 bg-brand-sidebar text-slate-300 flex flex-col flex-shrink-0 h-full">
+    <!-- Logo Section -->
+    <div class="p-8 pb-10 flex items-center space-x-3">
+      <div class="w-10 h-10 bg-brand rounded-xl flex items-center justify-center">
+        <img alt="Logo Icon" class="w-8 h-8 object-contain"
+          src="https://lh3.googleusercontent.com/aida-public/AB6AXuDO0jzjmGAtQkczIZmcUjL7B1Aa5yLXyuWGpT1tsqlaGc2iAPNOIhUAaOB3EkkilrMO6fgQb0Vq6zOQ38tueEPGLEL0Mula1OG3aN8UdtIPosya3zdLeAkr5TEg56O58WHCsm5lTturk26gl8MWblGKRBSmdykNlkN_Pc4FI_rHpOj3n6z8vIkHNuUm-Owuhke3z9QblfpKf32KZcfTj0BjoZmpIm5Ov-oYacoj538FHU-Q9eXnbcOeczCmjzBWQFFZkEBmdQEqPy0"
+          style="clip-path: inset(2% 82% 82% 2%); transform: scale(3.5); transform-origin: top left;" />
+      </div>
+      <div>
+        <h1 class="text-white text-xl font-bold leading-tight">MyWorkspace</h1>
+        <p class="text-slate-400 text-xs">Enterprise Portal</p>
+      </div>
+    </div>
+    <!-- Navigation Links -->
+    <nav class="flex-1 px-4 space-y-1">
+      <a class="flex items-center space-x-4 px-4 py-3 rounded-custom hover:bg-slate-800 transition-colors" href="#">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+          <path d="M4 6h16M4 12h16m-7 6h7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+        </svg>
+        <span class="font-medium">Dashboard</span>
+      </a>
+      <a class="flex items-center space-x-4 px-4 py-3 rounded-custom hover:bg-slate-800 transition-colors" href="#">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+          <path
+            d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
+            stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+        </svg>
+        <span class="font-medium">Apps</span>
+      </a>
+      <a class="flex items-center space-x-4 px-4 py-3 rounded-custom bg-brand-active text-white transition-colors"
+        href="#">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+          <path d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"
+            stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+        </svg>
+        <span class="font-medium">Drive</span>
+      </a>
+      <a class="flex items-center space-x-4 px-4 py-3 rounded-custom hover:bg-slate-800 transition-colors opacity-60"
+        href="#">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+          <path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+            stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+        </svg>
+        <span class="font-medium">Mail</span>
+      </a>
+      <a class="flex items-center space-x-4 px-4 py-3 rounded-custom hover:bg-slate-800 transition-colors opacity-60"
+        href="#">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+          <path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+            stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+        </svg>
+        <span class="font-medium">Calendar</span>
+      </a>
+      <a class="flex items-center space-x-4 px-4 py-3 rounded-custom hover:bg-slate-800 transition-colors opacity-60"
+        href="#">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+          <path
+            d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"
+            stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+        </svg>
+        <span class="font-medium">Tasks</span>
+      </a>
+      <a class="flex items-center space-x-4 px-4 py-3 rounded-custom hover:bg-slate-800 transition-colors opacity-60"
+        href="#">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+          <path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round"
+            stroke-width="2"></path>
+        </svg>
+        <span class="font-medium">Activity</span>
+      </a>
+      <div class="pt-10">
+        <a class="flex items-center space-x-4 px-4 py-3 rounded-custom hover:bg-slate-800 transition-colors opacity-60"
+          href="#">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+            <path
+              d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+              stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+            <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+            </path>
+          </svg>
+          <span class="font-medium">Settings</span>
+        </a>
+      </div>
+    </nav>
+    <!-- Storage Usage -->
+    <div class="p-6">
+      <div class="flex items-center justify-between text-xs mb-2">
+        <span class="text-slate-400">Storage Usage</span>
+        <span class="text-white font-semibold">75%</span>
+      </div>
+      <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
+        <div class="bg-brand h-full" style="width: 75%"></div>
+      </div>
+      <p class="text-[10px] text-slate-500 mt-2">75 GB of 100 GB used</p>
+    </div>
+  </aside>
+  <!-- END: MainSidebar -->
+  <main class="flex-1 flex flex-col min-w-0 bg-white">
+    <!-- BEGIN: TopBar -->
+    <header class="h-16 border-b flex items-center justify-between px-8 bg-white z-10">
+      <div class="flex items-center space-x-2 text-sm text-slate-500">
+        <span class="hover:text-brand cursor-pointer">My Files</span>
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+          <path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+        </svg>
+        <span class="hover:text-brand cursor-pointer">Projects</span>
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+          <path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+        </svg>
+        <span class="text-slate-900 font-semibold">2024 Q1 Planning</span>
+      </div>
+      <div class="flex items-center space-x-6">
+        <div class="relative">
+          <svg class="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400" fill="none"
+            stroke="currentColor" viewbox="0 0 24 24">
+            <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-linecap="round" stroke-linejoin="round"
+              stroke-width="2"></path>
+          </svg>
+          <input class="pl-10 pr-4 py-2 w-72 bg-slate-50 border-none rounded-full text-sm focus:ring-2 focus:ring-brand"
+            placeholder="Search Drive..." type="text" />
+        </div>
+        <button class="text-slate-500 hover:text-brand relative">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+            <path
+              d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+              stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+          </svg>
+          <span class="absolute top-0 right-0 block h-2 w-2 rounded-full bg-red-500 ring-2 ring-white"></span>
+        </button>
+        <button class="text-slate-500 hover:text-brand">
+          <svg class="w-6 h-6" fill="currentColor" viewbox="0 0 24 24">
+            <path
+              d="M4 4h4v4H4zm6 0h4v4h-4zm6 0h4v4h-4zM4 10h4v4H4zm6 0h4v4h-4zm6 0h4v4h-4zM4 16h4v4H4zm6 0h4v4h-4zm6 0h4v4h-4z">
+            </path>
+          </svg>
+        </button>
+        <div
+          class="w-8 h-8 rounded-full bg-slate-200 overflow-hidden cursor-pointer ring-2 ring-white ring-offset-2 ring-offset-slate-100">
+          <img alt="Profile" class="w-full h-full object-cover"
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCVkMddAmLULg-4e7JsnOJt4Jr0rl2rlRjZRJlIx2KtShkoicGic0jNslSvlL4v3mYptmYReCU1O5NDeWUq4bGIP7tNNUqXSHbgWlMV3z0MWmwo5Dg52PY8v7cnU5BbSr6D80-UkU4m_1qgxtICqli7KMl-LX3KPokFMbKz-xEd8imUAz_LvmgCyiIhZb1m3iMiWrUKfuZMgxYxzKGxSmNW1kzWhWznTi6SiDD-hkEerGwYNtJOChUytuGFT0Fe4RwDKG2en5LbMn4" />
+        </div>
+      </div>
+    </header>
+    <!-- END: TopBar -->
+    <div class="flex-1 flex overflow-hidden">
+      <!-- BEGIN: ContentArea -->
+      <section class="flex-1 overflow-y-auto p-8 bg-surface">
+        <div class="flex items-center justify-between mb-8">
+          <h2 class="text-2xl font-bold text-slate-800">2024 Q1 Planning</h2>
+          <div class="flex items-center space-x-2 bg-slate-100 p-1 rounded-custom">
+            <button class="p-2 text-slate-500 hover:bg-white rounded-md transition-all shadow-sm">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                <path
+                  d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"
+                  stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+              </svg>
+            </button>
+            <button class="p-2 text-brand bg-white rounded-md shadow-sm">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                <path d="M4 6h16M4 10h16M4 14h16M4 18h16" stroke-linecap="round" stroke-linejoin="round"
+                  stroke-width="2"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <!-- Action Bar -->
+        <div class="flex items-center justify-between mb-8">
+          <button
+            class="bg-brand text-white px-6 py-2.5 rounded-custom font-semibold flex items-center space-x-2 hover:bg-brand-dark transition-colors shadow-lg shadow-brand/20">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+              <path d="M12 4v16m8-8H4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+            </svg>
+            <span>New / Upload</span>
+          </button>
+          <div class="flex items-center space-x-4">
+            <button
+              class="flex items-center space-x-2 text-slate-500 text-sm font-medium px-3 py-2 hover:bg-slate-100 rounded-custom">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                <path d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12" stroke-linecap="round" stroke-linejoin="round"
+                  stroke-width="2"></path>
+              </svg>
+              <span>Sort</span>
+            </button>
+            <button class="p-2 text-slate-500 hover:text-brand">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                <path d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round"
+                  stroke-linejoin="round" stroke-width="2"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <!-- Folders Section -->
+        <div class="mb-10">
+          <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">Folders</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <!-- Folder 1 -->
+            <div
+              class="bg-white border p-4 rounded-custom flex items-center space-x-4 hover:border-brand cursor-pointer group transition-all shadow-sm">
+              <div
+                class="w-12 h-12 bg-blue-50 text-brand rounded-lg flex items-center justify-center group-hover:bg-brand group-hover:text-white transition-colors">
+                <svg class="w-6 h-6" fill="currentColor" viewbox="0 0 20 20">
+                  <path d="M2 6a2 2 0 012-2h5l2 2h5a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V6z"></path>
+                </svg>
+              </div>
+              <div>
+                <p class="font-semibold text-slate-800">Design Assets</p>
+                <p class="text-xs text-slate-400">12 items</p>
+              </div>
+            </div>
+            <!-- Folder 2 -->
+            <div
+              class="bg-white border p-4 rounded-custom flex items-center space-x-4 hover:border-brand cursor-pointer group transition-all shadow-sm">
+              <div
+                class="w-12 h-12 bg-blue-50 text-brand rounded-lg flex items-center justify-center group-hover:bg-brand group-hover:text-white transition-colors">
+                <svg class="w-6 h-6" fill="currentColor" viewbox="0 0 20 20">
+                  <path d="M2 6a2 2 0 012-2h5l2 2h5a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V6z"></path>
+                </svg>
+              </div>
+              <div>
+                <p class="font-semibold text-slate-800">Marketing</p>
+                <p class="text-xs text-slate-400">45 items</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Files List Section -->
+        <div>
+          <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">Files</h3>
+          <div class="bg-white rounded-custom border shadow-sm overflow-hidden">
+            <table class="w-full text-left text-sm">
+              <thead class="bg-slate-50 border-b text-slate-500">
+                <tr>
+                  <th class="px-6 py-3 font-semibold">Name</th>
+                  <th class="px-6 py-3 font-semibold">Owner</th>
+                  <th class="px-6 py-3 font-semibold">Last Modified</th>
+                  <th class="px-6 py-3 font-semibold text-right">Size</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y">
+                <!-- File 1: Selected -->
+                <tr class="hover:bg-blue-50 cursor-pointer bg-blue-50/50">
+                  <td class="px-6 py-4 flex items-center space-x-3">
+                    <div class="text-red-500">
+                      <svg class="w-5 h-5" fill="currentColor" viewbox="0 0 24 24">
+                        <path
+                          d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z">
+                        </path>
+                      </svg>
+                    </div>
+                    <span class="font-medium text-slate-900">Q1_Strategy_Deck.pdf</span>
+                  </td>
+                  <td class="px-6 py-4">
+                    <div class="flex items-center space-x-2">
+                      <img alt="Me" class="w-6 h-6 rounded-full"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuAn9RSO5qionEpTF2BlMrJ-aLOR8FMyVyZvU_nWDc_fC82TWyvsg_ZZXUCmekU_3pqIxYZ2j5d0bUHfB1Q0y9N0aVqG74cTMLrYv2TBMhB38HvV7yHgV7WMsv-Fcq0JjPHr8RDAZb6oEHn9tKJTZX7GbkE2elSXgdoCjl5zl3BsZk1mInqaPyKutSViTObi04ondvFkWLqjisLlLGsIFNhRkiD1WiUkaRnrapPqQj_RL13tWiudGME7TUHlViGM6eWmL9LxQSz54L4" />
+                      <span>Me</span>
+                    </div>
+                  </td>
+                  <td class="px-6 py-4 text-slate-500">Today, 10:42 AM</td>
+                  <td class="px-6 py-4 text-slate-500 text-right">4.2 MB</td>
+                </tr>
+                <!-- File 2 -->
+                <tr class="hover:bg-blue-50 cursor-pointer">
+                  <td class="px-6 py-4 flex items-center space-x-3">
+                    <div class="text-orange-500">
+                      <svg class="w-5 h-5" fill="currentColor" viewbox="0 0 24 24">
+                        <path
+                          d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zm-5.04-6.71l-2.75 3.54-1.96-2.36L6.5 17h11l-3.54-4.71z">
+                        </path>
+                      </svg>
+                    </div>
+                    <span class="font-medium text-slate-900">Campaign_Hero_Banner.png</span>
+                  </td>
+                  <td class="px-6 py-4">
+                    <div class="flex items-center space-x-2">
+                      <div
+                        class="w-6 h-6 rounded-full bg-blue-100 text-brand text-[10px] flex items-center justify-center font-bold">
+                        JD</div>
+                      <span>Jane Doe</span>
+                    </div>
+                  </td>
+                  <td class="px-6 py-4 text-slate-500">Yesterday</td>
+                  <td class="px-6 py-4 text-slate-500 text-right">12.8 MB</td>
+                </tr>
+                <!-- File 3 -->
+                <tr class="hover:bg-blue-50 cursor-pointer">
+                  <td class="px-6 py-4 flex items-center space-x-3">
+                    <div class="text-green-600">
+                      <svg class="w-5 h-5" fill="currentColor" viewbox="0 0 24 24">
+                        <path
+                          d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm-3 16H8v-2h3v2zm0-4H8v-2h3v2zm0-4H8V8h3v2zm5 8h-3v-2h3v2zm0-4h-3v-2h3v2zm0-4h-3V8h3v2z">
+                        </path>
+                      </svg>
+                    </div>
+                    <span class="font-medium text-slate-900">Budget_Estimates_FY24.xlsx</span>
+                  </td>
+                  <td class="px-6 py-4">
+                    <div class="flex items-center space-x-2">
+                      <img alt="Me" class="w-6 h-6 rounded-full"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuCwYB8owulDQjyehfDZxoDCuvNhXbj763YSNcYerLw7BWiUrQglqF7DPMAF_VLB5X092-aP9p9ABEz6dp5qW17GrqSTJTHKA0wtHSZnmBmcTbR888w_cRKRJBTcfsaLxVgdDHRL4Lo3I8qTHd55o8c9pPUITpIClu_hXee6aByf9XOTuHOOSQRN3Kck7o-MWchxpmCMP24gvytDejKZHkVF9WsvpLzV3jlAJqwubPYxpHU6oNM2zjwAhTJqCDPspakC0U0PK314_To" />
+                      <span>Me</span>
+                    </div>
+                  </td>
+                  <td class="px-6 py-4 text-slate-500">Mar 12, 2024</td>
+                  <td class="px-6 py-4 text-slate-500 text-right">845 KB</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+      <!-- END: ContentArea -->
+      <!-- BEGIN: DetailsPanel -->
+      <aside class="w-96 border-l bg-white flex flex-col overflow-y-auto">
+        <div class="p-4 border-b flex items-center justify-between">
+          <h2 class="font-bold text-slate-900 truncate pr-4">Q1_Strategy_Deck.pdf</h2>
+          <button class="text-slate-400 hover:text-slate-600">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+              <path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+            </svg>
+          </button>
+        </div>
+        <div class="p-6">
+          <!-- File Preview Placeholder -->
+          <div
+            class="w-full aspect-square bg-slate-50 rounded-xl border-2 border-dashed border-slate-200 flex items-center justify-center mb-6">
+            <div class="text-slate-300">
+              <svg class="w-24 h-24" fill="currentColor" viewbox="0 0 24 24">
+                <path
+                  d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z">
+                </path>
+              </svg>
+            </div>
+          </div>
+          <!-- Tabs -->
+          <div class="flex border-b mb-6">
+            <button class="flex-1 py-2 text-sm font-semibold text-brand border-b-2 border-brand">Details</button>
+            <button class="flex-1 py-2 text-sm font-semibold text-slate-400 hover:text-slate-600">Activity</button>
+          </div>
+          <!-- Metadata -->
+          <div class="space-y-4 mb-8">
+            <div>
+              <p class="text-[10px] font-bold text-slate-400 uppercase">Type</p>
+              <p class="text-sm flex items-center space-x-2 font-medium">
+                <svg class="w-4 h-4 text-red-500" fill="currentColor" viewbox="0 0 24 24">
+                  <path
+                    d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm-1 7V3.5L18.5 9H13z">
+                  </path>
+                </svg>
+                <span>PDF Document</span>
+              </p>
+            </div>
+            <div>
+              <p class="text-[10px] font-bold text-slate-400 uppercase">Size</p>
+              <p class="text-sm font-medium">4.2 MB</p>
+            </div>
+            <div>
+              <p class="text-[10px] font-bold text-slate-400 uppercase">Location</p>
+              <p class="text-sm font-medium">My Files / Projects / 2024 Q1 Planning</p>
+            </div>
+            <div>
+              <p class="text-[10px] font-bold text-slate-400 uppercase">Owner</p>
+              <div class="flex items-center space-x-2 mt-1">
+                <img alt="Owner" class="w-8 h-8 rounded-full"
+                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuCPhpzsBI-kNmsraexQ9Ce0LVnrA1lbIk_X2s7SwuwcsN_yM3wILNqjulGX9bLX6goSb4_l3qM6NXswvhNEcLFtmjGzUwjixNqC4f6VkYElXYKqoNYHK8IbSbV6KtMBS6-yWPipjskYX5EqVa49WkX7dYy9QhITALxQMJQ_2MSa-kDotYV0xUQ5g8hA_Zz7O9H9olCDtpKLxx0QKgpcYbKJJgmAjHWTJvn6rhLr5Y9Duz1pv5aHc9SkTL5bfRbaAQ8dD2jp4wpW340" />
+                <span class="text-sm font-medium">Ujang Kopling</span>
+              </div>
+            </div>
+            <div>
+              <p class="text-[10px] font-bold text-slate-400 uppercase">Modified</p>
+              <p class="text-sm font-medium">Today at 10:42 AM by You</p>
+            </div>
+          </div>
+          <!-- Actions -->
+          <div class="space-y-2">
+            <button
+              class="w-full flex items-center space-x-3 px-4 py-3 text-slate-600 hover:bg-slate-100 rounded-custom transition-all">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                <path
+                  d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"
+                  stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+              </svg>
+              <span class="font-semibold text-sm">Share</span>
+            </button>
+            <button
+              class="w-full flex items-center space-x-3 px-4 py-3 text-slate-600 hover:bg-slate-100 rounded-custom transition-all">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                <path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" stroke-linecap="round"
+                  stroke-linejoin="round" stroke-width="2"></path>
+              </svg>
+              <span class="font-semibold text-sm">Download</span>
+            </button>
+            <button
+              class="w-full flex items-center space-x-3 px-4 py-3 text-red-500 hover:bg-red-50 rounded-custom transition-all">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                <path
+                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                  stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+              </svg>
+              <span class="font-semibold text-sm">Move to Trash</span>
+            </button>
+          </div>
+        </div>
+      </aside>
+      <!-- END: DetailsPanel -->
+    </div>
+  </main>
+</body>
+
+</html>

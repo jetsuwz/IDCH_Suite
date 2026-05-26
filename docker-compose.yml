@@ -1,0 +1,101 @@
+services:
+  postgres:
+    image: postgres:15
+    container_name: workspace_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: adminpassword
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+      - ./init-dbs.sql:/docker-entrypoint-initdb.d/init-dbs.sql
+    networks:
+      - workspace_net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:24.0.4
+    container_name: workspace_keycloak
+    command: start-dev
+    environment:
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://postgres:5432/keycloak_db
+      KC_DB_USERNAME: admin
+      KC_DB_PASSWORD: adminpassword
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - workspace_net
+
+  nextcloud:
+    image: nextcloud:29
+    container_name: workspace_nextcloud
+    restart: always
+    ports:
+      - "8081:80"
+    environment:
+      POSTGRES_HOST: postgres
+      POSTGRES_DB: nextcloud_db
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: adminpassword
+      NEXTCLOUD_ADMIN_USER: admin
+      NEXTCLOUD_ADMIN_PASSWORD: admin
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - workspace_net
+    volumes:
+      - nextcloud_data:/var/www/html
+
+  odoo:
+    image: odoo:17.0
+    container_name: workspace_odoo
+    restart: always
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "8069:8069"
+    environment:
+      - HOST=postgres
+      - USER=admin
+      - PASSWORD=adminpassword
+    networks:
+      - workspace_net
+    volumes:
+      - odoo_data:/var/lib/odoo
+      - odoo_config:/etc/odoo
+
+  portal:
+    image: node:20
+    container_name: workspace_portal
+    working_dir: /app
+    volumes:
+      - ./portal:/app
+    ports:
+      - "3000:3000"
+    command: npm run dev
+    networks:
+      - workspace_net
+    extra_hosts:
+      - "localhost:host-gateway"
+
+networks:
+  workspace_net:
+    driver: bridge
+
+volumes:
+  pg_data:
+  nextcloud_data:
+  odoo_data:
+  odoo_config:
